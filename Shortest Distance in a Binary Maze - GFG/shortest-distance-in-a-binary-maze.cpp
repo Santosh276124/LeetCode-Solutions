@@ -20,8 +20,8 @@ class Solution {
         
         vector<vector<int>>dist(n, vector<int>(m, 1e9));  //1,0  -1,0  0,1  0 , -1
         
-        int dr[] = {-1, 0, 1, 0};
-        int dc[] = {0, 1, 0, -1};
+        int dr[] = {1, -1, 0, 0};
+        int dc[] = {0, 0, 1, -1};
         
         queue<pair<int,pair<int,int>>> q;
         q.push({0, {source.first, source.second}});
