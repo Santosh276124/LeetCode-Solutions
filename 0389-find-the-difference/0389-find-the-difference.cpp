@@ -2,13 +2,22 @@ class Solution {
 public:
     char findTheDifference(string s, string t) {
         
-        int c = 0;
+          unordered_map<char,int> m;
         
-        s += t;
+        for(int i = 0; i < s.length(); i++)
+           m[s[i]]++;
         
-        for(auto i : s)
-            c^=i;
+        for(int i = 0; i < t.size(); i++)
+        {
+            if(m[t[i]] > 0) m[t[i]]--;
+            
+            else return t[i];
+            
+            
+        }
+      
+           
         
-        return c;
+        return '-1';
     }
 };
