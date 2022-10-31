@@ -19,7 +19,7 @@ public:
         {
             if(i > 0 && nums[i] == nums[i-1]) continue;  //for duplicates
             
-            // if(nums[i] > 0) return ans;
+            if(nums[i] > 0) return ans;
             
             for(int j = i+1; j < n; j++)
             {
