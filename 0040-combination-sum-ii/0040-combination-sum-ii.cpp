@@ -1,6 +1,6 @@
 class Solution {
 public:
-       vector<vector<int>> ans;
+      vector<vector<int>> ans;
       vector<int> temp;
     
     void solve(vector<int> &nums, int target, int i)
@@ -13,17 +13,16 @@ public:
         if(target < 0 || i >= nums.size())
             return;
         
-          //include
-        temp.push_back(nums[i]);
-        solve(nums, target-nums[i], i+1);
-        //backtrack
-        temp.pop_back();
-        
-     
-        while(i+1 < nums.size() && nums[i+1] == nums[i]) i++;
-        
-           //ixclude
-        solve(nums, target, i+1);
+        for(int ind = i; ind < nums.size(); ind++)
+        {
+            if(nums[ind] > target) break;
+            
+            if(ind > i && nums[ind] == nums[ind-1]) continue;
+            
+            temp.push_back(nums[ind]);
+            solve(nums, target-nums[ind], ind+1);
+            temp.pop_back();
+        }
         
         
       
