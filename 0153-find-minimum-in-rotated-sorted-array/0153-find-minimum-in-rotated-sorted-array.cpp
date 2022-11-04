@@ -6,16 +6,18 @@ public:
         
         int s = 0, e = n-1;
         
+         
+        
         while(s < e)
         {
+             
+            if(nums[s] < nums[e]) return nums[s];
+            
             int mid = s+(e-s)/2;
             
             if(nums[s] <= nums[mid])
             {
-                if(nums[s] < nums[e])
-                    e = mid-1;
-                else
-                    s = mid+1;
+               s = mid+1;
             }
             else
             {
