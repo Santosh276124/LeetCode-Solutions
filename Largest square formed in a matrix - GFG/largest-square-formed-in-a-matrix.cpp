@@ -47,6 +47,35 @@ class Solution{
            return dp[i][j] = 0;
         
     }
+    
+    int solveTab(vector<vector<int>> &mat, int &maxi)
+    {
+        int n = mat.size();
+        int m = mat[0].size();
+        vector<vector<int>> dp(n+1, vector<int>(m+1, 0));
+        
+        for(int i = n-1; i >= 0; i--)
+        {
+            for(int j = m-1; j >= 0; j--)
+            {
+                
+                int right = dp[i][j+1];
+                int diagonal = dp[i+1][j+1];
+                int down = dp[i+1][j];
+                if(mat[i][j] == 1) {
+                   dp[i][j] = 1 + min({right, diagonal, down});
+                   maxi = max(maxi, dp[i][j]);
+                  
+                }
+                else
+                    dp[i][j] = 0;
+                   
+            }
+        }
+        return dp[0][0];
+    }
+    
+    
 public:
     int maxSquare(int n, int m, vector<vector<int>> mat){
         // code here
@@ -54,9 +83,13 @@ public:
         // solve(mat, 0, 0, maxi);
         // return maxi;
         
+        // int maxi = 0;
+        // vector<vector<int>> dp(n, vector<int>(m, -1));
+        // solveMem(mat, 0, 0, maxi, dp);
+        // return maxi;
+        
         int maxi = 0;
-        vector<vector<int>> dp(n, vector<int>(m, -1));
-        solveMem(mat, 0, 0, maxi, dp);
+        solveTab(mat, maxi);
         return maxi;
     }
 };
