@@ -17,7 +17,7 @@ class Solution {
 	         {
 	             for(int j = 0; j < n; j++)
 	             {
-	                if(i == j) mat[i][j] == 0; 
+	              
 	                if(mat[i][j] == -1)
 	                  mat[i][j] = 1e9;
 	             }
