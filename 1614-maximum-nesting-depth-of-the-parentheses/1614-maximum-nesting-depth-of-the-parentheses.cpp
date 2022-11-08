@@ -2,27 +2,14 @@ class Solution {
 public:
     int maxDepth(string s) {
         
-        vector<int> pref;
-        vector<int> suff;
-        
-        int cnt1 = 0, cnt2 = 0;
-        for(int i = 0; i < s.length(); i++)
+       int ans = 0;
+       int cnt = 0;
+        for(auto i : s)
         {
-            if(s[i] =='(')
-                cnt1++;
-
-             pref.push_back(cnt1);
-            
-            if(s[i] == ')')
-                cnt2++;
-            
-            suff.push_back(cnt2);
-        }
-        
-        int ans = 0;
-        for(int i = 0; i < s.length(); i++)
-        {
-            ans = max(ans, pref[i]-suff[i]);
+            if(i == '(')
+                ans = max(ans, ++cnt);
+            if(i == ')')
+                cnt--;
         }
         return ans;
         
