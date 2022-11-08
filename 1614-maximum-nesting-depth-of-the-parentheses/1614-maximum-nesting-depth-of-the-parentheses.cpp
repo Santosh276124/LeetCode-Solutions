@@ -4,7 +4,7 @@ public:
         
        int ans = 0;
        int cnt = 0;
-        for(auto i : s)
+        for(char& i : s)
         {
             if(i == '(')
                 ans = max(ans, ++cnt);
