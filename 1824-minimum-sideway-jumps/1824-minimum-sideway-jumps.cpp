@@ -68,7 +68,7 @@ class Solution {
                     for(int i = 1; i <= 3; i++)
                     {
                         if(currLane != i && obs[currPos] != i)
-                            ans = min(ans, 1 + dp[i][currPos+1]);
+                            ans = min(ans, 1 + dp[i][currPos+1]);  //=> use currPos + 1
                     }
                     dp[currLane][currPos] = ans;
                     
@@ -78,6 +78,43 @@ class Solution {
        return min({dp[2][0], 1+dp[1][0], 1+dp[3][0]});
     }
     
+     int solveSpaceOptimised(vector<int>& obs){
+         
+        int n = obs.size()-1;
+
+         
+         vector<int> curr(4, 1e9);
+         vector<int> next(4, 1e9);
+
+         next[0] = 0;
+         next[1] = 0;
+         next[2] = 0;
+         next[3] = 0;
+
+         for(int currPos = n-1; currPos >= 0; currPos--)
+         {
+             for(int currLane = 1; currLane <= 3; currLane++)
+             {
+                 if(obs[currPos+1] != currLane)  //seedha jayenge bc no obs present at next pos
+                    curr[currLane] = next[currLane];
+                else
+                {
+                    //sidewqys jump karenge
+                    int ans = 1e9;
+                    for(int i = 1; i <= 3; i++)
+                    {
+                        if(currLane != i && obs[currPos] != i)
+                            ans = min(ans, 1 + next[i]);  //=> use currPos + 1
+                    }
+                    curr[currLane] = ans;
+
+                }
+             }
+              next = curr;
+         }
+        return min({next[2], 1+next[1], 1+next[3]});
+        }
+    
 public:
     int minSideJumps(vector<int>& obstacles) {
         
@@ -86,6 +123,8 @@ public:
         // vector<vector<int>> dp(4, vector<int>(obstacles.size(), -1));
         // return solveMem(obstacles, 2, 0, dp);
         
-        return solveTab(obstacles);
+        // return solveTab(obstacles);
+        
+        return solveSpaceOptimised(obstacles);
     }
 };
