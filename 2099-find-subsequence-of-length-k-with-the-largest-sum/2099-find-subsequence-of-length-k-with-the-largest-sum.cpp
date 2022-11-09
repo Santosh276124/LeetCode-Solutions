@@ -2,6 +2,8 @@ class Solution {
 public:
     vector<int> maxSubsequence(vector<int>& nums, int k) {
         
+        if(nums.size() == k) return nums;
+        
         priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>> > q;
         for(int i = 0; i < nums.size();i++)
             q.push({nums[i], i});
