@@ -17,7 +17,8 @@ class Solution{
       int incl = dfs(arr, n, totalSum, i+1, currSum + arr[i], dp);
       int excl = dfs(arr, n, totalSum, i+1, currSum, dp);
       
-      return dp[i][currSum] = min(incl, excl);
+      dp[i][currSum] = min(incl, excl);
+      return dp[i][currSum];
   }
 	int minDifference(int arr[], int n)  { 
 	    // Your code goes here
