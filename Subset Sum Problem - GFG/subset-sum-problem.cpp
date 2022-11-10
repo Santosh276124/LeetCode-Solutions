@@ -10,28 +10,28 @@ using namespace std;
 class Solution{   
     bool dfs(vector<int> &arr, int i, int sum, vector<vector<int>> &dp)
     {
-        //base case
-        if(i == arr.size())
-        {
-            if(sum == 0)
-             return true;
-            else
-             return false;
-        }
+       if(sum == 0) return true;
+       
+       if(i == 0) return (arr[0] == sum);
         
         if(dp[i][sum] != -1)
          return dp[i][sum];
+         
+        bool excl = dfs(arr, i-1, sum, dp);
         
-        bool incl = dfs(arr, i+1, sum-arr[i], dp);
-        bool excl = dfs(arr, i+1, sum, dp);
+        bool incl = false;
+        if(arr[i] <= sum)
+            incl = dfs(arr, i-1, sum-arr[i], dp);
+      
         
         return dp[i][sum] = (incl||excl);
     }
 public:
     bool isSubsetSum(vector<int>arr, int sum){
         // code here 
-        vector<vector<int>> dp(arr.size()+1, vector<int>(sum+1, -1));
-        bool ans = dfs(arr, 0, sum, dp);
+        int n = arr.size();
+        vector<vector<int>> dp(n, vector<int>(sum+1, -1));
+        bool ans = dfs(arr, n-1, sum, dp);
         return ans;
     }
 };
