@@ -54,6 +54,35 @@ class Solution{
         
         return dp[n-1][sum];
     }
+    
+      bool dfsSpace(vector<int> &arr, int sum)
+    {
+        int n = arr.size();
+    
+        vector<bool> curr(sum+1, 0), prev(sum+1, 0);
+        
+        curr[0] = prev[0] = true;
+           
+       prev[arr[0]] = true;
+        
+        for(int i = 1; i < n; i++)
+        {
+            for(int target = 1; target <= sum; target++ )
+            {
+                bool excl = prev[target];
+                
+                bool incl = false;
+                if(arr[i] <= target)
+                    incl = prev[target-arr[i]];
+      
+        
+                curr[target] = (incl||excl);
+            }
+            prev = curr;
+        }
+        
+        return prev[sum];
+    }
 public:
     bool isSubsetSum(vector<int>arr, int sum){
         // code here 
@@ -62,8 +91,9 @@ public:
         // bool ans = dfs(arr, n-1, sum, dp);
         // return ans;
         
-        return dfsTab(arr, sum);
+        // return dfsTab(arr, sum);
         
+        return dfsSpace(arr, sum);
     }
 };
 
