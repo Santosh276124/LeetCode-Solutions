@@ -23,6 +23,35 @@ class Solution {
         return dp[i][k];
             
     }
+    
+    bool dfsTab(vector<int> &arr, int sum)
+    {
+        int n = arr.size();
+        vector<vector<bool>> dp(arr.size()+1, vector<bool>(sum+1, 0));
+        
+        for(int i = 0; i < n; i++) 
+           dp[i][0] = true;
+        
+        if(arr[0] <= sum)   
+          dp[0][arr[0]] = true;
+        
+        for(int i = 1; i < n; i++)
+        {
+            for(int target = 1; target <= sum; target++ )
+            {
+                bool excl = dp[i-1][target];
+                
+                bool incl = false;
+                if(arr[i] <= target)
+                    incl = dp[i-1][target-arr[i]];
+      
+        
+                dp[i][target] = (incl||excl);
+            }
+        }
+        
+        return dp[n-1][sum];
+    }
 public:
     bool canPartition(vector<int>& nums) {
         
@@ -37,9 +66,11 @@ public:
         
         if(totalSum %2 != 0) return false;
         
-        vector<vector<int>> dp(n+1, vector<int>(totalSum+1, -1));
+//         vector<vector<int>> dp(n+1, vector<int>(totalSum+1, -1));
         
-        return dfs(nums, n-1, totalSum/2, dp);
+//         return dfs(nums, n-1, totalSum/2, dp);
+        
+        return dfsTab(nums, totalSum/2);
         
        
     }
