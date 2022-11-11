@@ -1,25 +1,26 @@
 class Solution {
-    bool dfs(vector<int> &nums, int i, int k,int sum, vector<vector<int>> &dp)
+    bool dfs(vector<int> &nums, int i, int k, vector<vector<int>> &dp)
     {
+        if(k == 0) return true;
       
-        if(i >= nums.size())
+        if(i == 0)
         {
-            if(sum == k-sum) return true;
+            if(nums[0] == k) return true;
              return false;
         }
         
-        if(dp[i][sum] != -1) return dp[i][sum];
+        if(dp[i][k] != -1) return dp[i][k];
         // if(sum == k-sum) return true;
         
         
-        bool excl = dfs(nums, i+1, k,  sum, dp);
+        bool excl = dfs(nums, i-1, k, dp);
         
+        bool incl = false;
+        if(nums[i] <= k)
+            incl = dfs(nums, i-1, k-nums[i], dp);
         
-       
-        bool  incl = dfs(nums, i+1, k,  sum+nums[i], dp);
-        
-        dp[i][sum] = (excl||incl);
-        return dp[i][sum];
+        dp[i][k] = (excl||incl);
+        return dp[i][k];
             
     }
 public:
@@ -34,9 +35,11 @@ public:
             totalSum += nums[i];
         }
         
+        if(totalSum %2 != 0) return false;
+        
         vector<vector<int>> dp(n+1, vector<int>(totalSum+1, -1));
         
-        return dfs(nums, 0, totalSum, 0, dp);
+        return dfs(nums, n-1, totalSum/2, dp);
         
        
     }
