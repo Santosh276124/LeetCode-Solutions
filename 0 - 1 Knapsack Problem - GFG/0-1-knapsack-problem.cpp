@@ -93,6 +93,32 @@ class Solution
        return prev[W];
        
     }
+    
+     int solveSpaceTOoneVector(int W, int wt[], int val[], int n)
+    {
+       //base case
+      
+       vector<int> prev(W+1, 0);
+       
+       for(int i = wt[0]; i <= W; i++)
+         prev[i] = val[0];
+         
+        for(int ind = 1; ind < n; ind++)
+        {
+            for(int weight = W; weight >= 0; weight--)
+            {
+                int excl = 0 + prev[weight];
+                int incl = INT_MIN;
+                if(wt[ind] <= weight)
+                   incl = val[ind] + prev[weight-wt[ind]];
+                   
+                prev[weight] = max(incl, excl);
+            }
+        }
+       
+       return prev[W];
+       
+    }
     public:
     //Function to return max value that can be put in knapsack of capacity W.
     int knapSack(int W, int wt[], int val[], int n) 
@@ -107,8 +133,10 @@ class Solution
        
     //   return solveTab(W, wt, val, n);
     
-         return solveSpace(W, wt, val, n);
-       
+        //  return solveSpace(W, wt, val, n);
+        
+        
+       return solveSpaceTOoneVector(W, wt, val, n);
        
     }
 };
