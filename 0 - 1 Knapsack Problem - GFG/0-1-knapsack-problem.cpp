@@ -41,6 +41,31 @@ class Solution
            
         return dp[ind][W] = max(incl, excl);
     }
+    
+    int solveTab(int W, int wt[], int val[], int n)
+    {
+       //base case
+       vector<vector<int>> dp(n+1, vector<int>(W+1, 0));
+       
+       for(int i = wt[0]; i <= W; i++)
+         dp[0][i] = val[0];
+         
+        for(int ind = 1; ind < n; ind++)
+        {
+            for(int weight = 0; weight <= W; weight++)
+            {
+                int excl = 0 + dp[ind-1][weight];
+                int incl = INT_MIN;
+                if(wt[ind] <= weight)
+                   incl = val[ind] + dp[ind-1][weight-wt[ind]];
+                   
+                dp[ind][weight] = max(incl, excl);
+            }
+        }
+       
+       return dp[n-1][W];
+       
+    }
     public:
     //Function to return max value that can be put in knapsack of capacity W.
     int knapSack(int W, int wt[], int val[], int n) 
@@ -49,10 +74,11 @@ class Solution
         // return solve(n-1, W, wt, val);
         
         
-        vector<vector<int>> dp(n+1, vector<int>(W+1, -1));
-        
-        return solveMem(n-1, W, wt, val, dp);
+        // vector<vector<int>> dp(n+1, vector<int>(W+1, -1));
+        // return solveMem(n-1, W, wt, val, dp);
        
+       
+       return solveTab(W, wt, val, n);
        
        
     }
