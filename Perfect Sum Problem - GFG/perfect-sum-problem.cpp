@@ -76,6 +76,37 @@ class Solution{
         
         return dp[n-1][tar]%mod;
     }
+    
+    int solveSpace(int arr[], int n, int tar)
+    {
+       vector<int> prev(tar+1, 0), curr(tar+1, 0);
+        
+        if(arr[0] == 0) prev[0] = 2;
+        else prev[0] = 1;
+        
+        //arr[0] = 0;
+       if(arr[0] != 0 && arr[0] <= tar) prev[arr[0]] = 1;
+      
+        for(int ind = 1; ind < n; ind++)
+        {
+            for(int target = 0; target <= tar; target++)
+            {
+                
+                 int excl = prev[target];
+                
+                int incl = 0;
+                if(arr[ind] <= target)
+                    incl = prev[target-arr[ind]];
+                
+                  
+                   
+                curr[target] = (incl+excl)%mod;
+            }
+            prev = curr;
+        }
+        
+        return prev[tar]%mod;
+    }
 
 	public:
 	int perfectSum(int arr[], int n, int sum)
@@ -86,7 +117,9 @@ class Solution{
     //     return solveMem(arr, n, n-1, sum, dp);
         
     
-        return solveTab(arr, n, sum);
+        // return solveTab(arr, n, sum);
+        
+        return solveSpace(arr, n, sum);
         
         
       
