@@ -47,22 +47,49 @@ class Solution{
         return dp[ind][tar] = (incl%mod+excl%mod)%mod;
     }
     
-    // int solveTab(int arr[], int n, int tar)
-    // {
-    //     vector<vector<int>> dp(n+1, vector<int>(sum+1, 0));
+    int solveTab(int arr[], int n, int tar)
+    {
+        vector<vector<int>> dp(n, vector<int>(tar+1, 0));
         
+        if(arr[0] == 0) dp[0][0] = 2;
+        else dp[0][0] = 1;
         
-    // }
+        //arr[0] = 0;
+       if(arr[0] != 0 && arr[0] <= tar) dp[0][arr[0]] = 1;
+      
+        for(int ind = 1; ind < n; ind++)
+        {
+            for(int target = 0; target <= tar; target++)
+            {
+                
+                 int excl = dp[ind-1][target];
+                
+                int incl = 0;
+                if(arr[ind] <= target)
+                    incl = dp[ind-1][target-arr[ind]];
+                
+                  
+                   
+                dp[ind][target] = (incl+excl)%mod;
+            }
+        }
+        
+        return dp[n-1][tar]%mod;
+    }
 
 	public:
 	int perfectSum(int arr[], int n, int sum)
 	{
 	   // int ans = solve(arr, n, n-1, sum);
 	   
-	   vector<vector<int>> dp(n+1, vector<int>(sum+1, -1));
-        return solveMem(arr, n, n-1, sum, dp);
+	   //vector<vector<int>> dp(n+1, vector<int>(sum+1, -1));
+    //     return solveMem(arr, n, n-1, sum, dp);
+        
     
-    // return solveTab(arr, n, sum);
+        return solveTab(arr, n, sum);
+        
+        
+      
         
         
         
