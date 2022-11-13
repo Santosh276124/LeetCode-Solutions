@@ -49,7 +49,7 @@ class Solution{
     
     int solveTab(int arr[], int n, int tar)
     {
-        vector<vector<int>> dp(n, vector<int>(tar+1, 0));
+        vector<vector<int>> dp(n + 1, vector<int>(tar+1, 0));
         
         if(arr[0] == 0) dp[0][0] = 2;
         else dp[0][0] = 1;
