@@ -15,13 +15,13 @@ public:
         {
             if(isVowel(word[i])){
       
-                unordered_map<char,int> m;
+                set<char> s;
                 for(int j = i; j < n; j++)
                 {
                     if(isVowel(word[j]))
                     {
-                        m[word[j]]++;
-                        if(m.size() == 5)
+                        s.insert(word[j]);
+                        if(s.size() == 5)
                             cnt++;
                     }
                     else
