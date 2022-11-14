@@ -15,7 +15,7 @@ public:
         {
             if(isVowel(word[i])){
       
-                set<char> s;
+                unordered_set<char> s;
                 for(int j = i; j < n; j++)
                 {
                     if(isVowel(word[j]))
