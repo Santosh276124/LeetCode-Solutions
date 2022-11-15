@@ -15,6 +15,35 @@ class Solution {
         
         return incl+excl;
     }
+    
+    int solveTab(vector<int> &nums, int tar)
+    {
+        int n = nums.size();
+        vector<vector<int>> dp(n+1, vector<int>(tar+1, 0));
+        
+        if(nums[0] == 0)
+            dp[0][0] = 2; 
+        else
+            dp[0][0] = 1;
+        
+        if(nums[0] != 0 && nums[0] <= tar) 
+            dp[0][nums[0]] = 1;
+        
+        for(int ind = 1; ind < n; ind++)
+        {
+            for(int target = 0; target <= tar; target++)
+            {
+                int excl = dp[ind-1][target];
+                int incl = 0;
+                if(nums[ind] <= target)
+                   incl = dp[ind-1][target-nums[ind]];
+
+                dp[ind][target] = incl+excl;
+            }
+        }
+        
+        return dp[n-1][tar];
+    }
 public:
     int findTargetSumWays(vector<int>& A, int target) {
         
@@ -27,6 +56,8 @@ public:
         
         int tar = (totalSum-target)/2;
         
-        return solve(A, n-1, tar);
+        // return solve(A, n-1, tar);
+        
+        return solveTab(A, tar);
     }
 };
