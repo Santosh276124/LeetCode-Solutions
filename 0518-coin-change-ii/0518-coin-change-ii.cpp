@@ -65,6 +65,35 @@ class Solution {
         
         return dp[n-1][tar];
     }
+    
+    int solveSpace(vector<int> &nums, int tar)
+    {  
+       int n = nums.size(); 
+    
+        vector<int> prev(tar+1, 0), curr(tar+1, 0);
+        
+       for(int target = 0; target <= tar; target++)
+       {
+            if(target % nums[0] == 0) prev[target] = 1;
+            else prev[target] = 0; 
+       }
+        
+        for(int ind = 1; ind < n; ind++)
+        {
+            for(int target = 0; target <= tar; target++)
+            {
+                int excl = prev[target];
+                int incl = 0;
+                if(nums[ind] <= target)
+                    incl = curr[target-nums[ind]];
+
+               curr[target] = incl+excl;
+            }
+            prev = curr;
+        }
+        
+        return prev[tar];
+    }
 public:
     int change(int amount, vector<int>& coins) {
         
@@ -75,7 +104,9 @@ public:
         
 //         return solveMem(coins, n-1, amount, dp);
         
-        return solveTab(coins, amount);
+        // return solveTab(coins, amount);
+        
+        return solveSpace(coins, amount);
         
     }
 };
