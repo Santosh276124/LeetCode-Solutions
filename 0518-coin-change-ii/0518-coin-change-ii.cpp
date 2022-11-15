@@ -2,7 +2,7 @@ class Solution {
     int solve(vector<int> &nums, int ind, int tar)
     {
         //base case
-        if(tar == 0) return 1;
+       
         
         if(ind == 0)
         {
@@ -38,15 +38,44 @@ class Solution {
         
         return dp[ind][tar] = incl+excl;
     }
+    
+    int solveTab(vector<int> &nums, int tar)
+    {  
+       int n = nums.size(); 
+        vector<vector<int>> dp(n+1, vector<int> (tar+1, 0));
+        
+       for(int target = 0; target <= tar; target++)
+       {
+            if(target % nums[0] == 0) dp[0][target] = 1;
+            else dp[0][target] = 0; 
+       }
+        
+        for(int ind = 1; ind < n; ind++)
+        {
+            for(int target = 0; target <= tar; target++)
+            {
+                int excl = dp[ind-1][target];
+                int incl = 0;
+                if(nums[ind] <= target)
+                    incl = dp[ind][target-nums[ind]];
+
+               dp[ind][target] = incl+excl;
+            }
+        }
+        
+        return dp[n-1][tar];
+    }
 public:
     int change(int amount, vector<int>& coins) {
         
         int n = coins.size();
         // return solve(coins, n-1, amount);
         
-        vector<vector<int>> dp(n+1, vector<int>(amount+1, -1));
+//         vector<vector<int>> dp(n+1, vector<int>(amount+1, -1));
         
-        return solveMem(coins, n-1, amount, dp);
+//         return solveMem(coins, n-1, amount, dp);
+        
+        return solveTab(coins, amount);
         
     }
 };
