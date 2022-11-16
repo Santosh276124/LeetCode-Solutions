@@ -12,7 +12,7 @@ class Solution{
     {
         if(ind == 0)
         {
-            if(wt[0] <= W) return val[0];
+            if(wt[0] <= W) return (W/wt[0])*val[0];
             else return 0;
         }
         
@@ -42,6 +42,31 @@ class Solution{
         return dp[ind][W] = max(incl, excl);
     }
     
+    int solveTab(int wt[],int n, int val[], int W)
+    {
+         
+         vector<vector<int>> dp(n+1, vector<int>(W+1, 0));
+         
+         for(int w = wt[0]; w <= W; w++)
+           dp[0][w] = (w/wt[0])*val[0];
+           
+         for(int ind = 1; ind < n; ind++)
+         {
+             for(int weight = 0; weight <= W; weight++)
+             {
+                int excl = dp[ind-1][weight];
+                int incl = INT_MIN;
+                if(wt[ind] <= weight)
+                   incl = val[ind] + dp[ind][weight-wt[ind]];
+                   
+                dp[ind][weight] = max(incl, excl);
+             }
+         }
+         
+         return dp[n-1][W];
+         
+    }
+    
 public:
     int knapSack(int n, int W, int val[], int wt[])
     {
@@ -49,8 +74,10 @@ public:
         // return solve(wt, n-1, val , W);
         
         
-        vector<vector<int>> dp(n+1, vector<int>(W+1, -1));
-        return solveMem(wt, n-1, val , W, dp);
+        // vector<vector<int>> dp(n+1, vector<int>(W+1, -1));
+        // return solveMem(wt, n-1, val , W, dp);
+        
+        return solveTab(wt,n, val, W);
         
     }
 };
