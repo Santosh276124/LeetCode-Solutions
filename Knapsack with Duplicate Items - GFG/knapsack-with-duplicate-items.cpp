@@ -67,6 +67,33 @@ class Solution{
          
     }
     
+    int solveSpace(int wt[],int n, int val[], int W)
+    {
+         
+        
+         vector<int> prev(W+1, 0), curr(W+1, 0);
+         
+         for(int w = wt[0]; w <= W; w++)
+           prev[w] = (w/wt[0])*val[0];
+           
+         for(int ind = 1; ind < n; ind++)
+         {
+             for(int weight = 0; weight <= W; weight++)
+             {
+                int excl = prev[weight];
+                int incl = INT_MIN;
+                if(wt[ind] <= weight)
+                   incl = val[ind] + curr[weight-wt[ind]];
+                   
+                curr[weight] = max(incl, excl);
+             }
+             prev = curr;
+         }
+         
+         return prev[W];
+         
+    }
+    
 public:
     int knapSack(int n, int W, int val[], int wt[])
     {
@@ -77,8 +104,10 @@ public:
         // vector<vector<int>> dp(n+1, vector<int>(W+1, -1));
         // return solveMem(wt, n-1, val , W, dp);
         
-        return solveTab(wt,n, val, W);
+        // return solveTab(wt,n, val, W);
         
+        
+        return solveSpace(wt, n, val, W);
     }
 };
 
