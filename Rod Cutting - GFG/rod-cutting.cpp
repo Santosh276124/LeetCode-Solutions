@@ -44,14 +44,41 @@ class Solution{
           
         return dp[ind][n] = max(excl, incl);
     }
+    
+    int solveTab(int price[], int N)
+    {
+        //base case
+        vector<vector<int>> dp(N+1, vector<int>(N+1, 0));
+        
+        for(int n = 0; n <= N; n++)
+         dp[0][n] = n*price[0];
+         
+        for(int ind = 1; ind < N; ind++)
+        {
+            for(int n = 0; n <= N; n++)
+            {
+                int excl = dp[ind-1][n];
+                int incl = INT_MIN;
+                int rodLength = ind+1;
+                if(rodLength <= n)
+                  incl = price[ind] + dp[ind][n-rodLength];
+                  
+                dp[ind][n] = max(excl, incl);
+            }
+        }
+        
+        return dp[N-1][N];
+    }
   public:
     int cutRod(int price[], int n) {
         //code here
         
         // return solve(price, n-1, n);
         
-        vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
-        return solveMem(price, n-1, n, dp);
+        // vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
+        // return solveMem(price, n-1, n, dp);
+        
+        return solveTab(price, n);
         
     }
 };
