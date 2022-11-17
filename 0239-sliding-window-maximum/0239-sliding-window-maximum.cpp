@@ -29,7 +29,7 @@ public:
        int i = 0;
        int j = 0;
         
-        while(i < nums.size())
+        for(int i = 0; i < nums.size(); i++)
         {
             while(dq.size() && dq.back() < nums[i])
             {
@@ -37,13 +37,9 @@ public:
             }
             
             dq.push_back(nums[i]);
+
             
-            if(i-j+1 < k)
-            {
-                // i++;
-            }
-            
-            else if(i-j+1 == k)
+             if(i-j+1 == k)
             {
                ans.push_back(dq.front());
                 
@@ -51,11 +47,11 @@ public:
                 {
                     dq.pop_front();
                 }
-                // i++;
+                
                 j++;
             }
             
-            i++;
+           
         }
         return ans;
         
