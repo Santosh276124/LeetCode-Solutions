@@ -14,30 +14,28 @@ class Solution
     //Function to find maximum of each subarray of size k.
     vector <int> max_of_subarrays(int *arr, int n, int k)
     {
-        // your code here
-        vector<int> ans;
-        deque<int> dq;
-        
-        int j = 0;
-        for(int i = 0; i < n; i++)
-        {
-            while(dq.size() && dq.back() < arr[i])
-            dq.pop_back();
-            
-            dq.push_back(arr[i]);
-            
-            if(i-j+1 == k)
-            {
-                ans.push_back(dq.front());
-                
-                if(dq.front() == arr[j])
-                 dq.pop_front();
-                 
-                j++;
-            }
-        }
-        
-        return ans;
+       priority_queue<pair<int,int>> pq;
+       vector<int> ans;
+       
+       for(int i = 0; i < k; i++)
+       pq.push({arr[i], i});
+       
+       ans.push_back(pq.top().first);
+       
+       
+       for(int i = k; i < n; i++)
+       {
+           pq.push({arr[i], i});
+           
+           while(pq.size() && pq.top().second <= i-k)
+           pq.pop();
+           
+           
+           ans.push_back(pq.top().first);
+       }
+       
+       return ans;
+       
     }
 };
 
