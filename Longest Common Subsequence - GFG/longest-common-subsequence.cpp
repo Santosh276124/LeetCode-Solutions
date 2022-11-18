@@ -58,7 +58,7 @@ class Solution
     {
         int n = s1.length();
         int m = s2.length();
-        vector<vector<int>> dp(n+1, vector<int>(m+1, 0));
+        
         vector<int> prev(m+1, 0), curr(m+1, 0);
         
         
@@ -70,12 +70,13 @@ class Solution
             for(int j = 1; j <= m; j++)
             {
                 if(s1[i-1] == s2[j-1])  //since we have shifted the indexes so i-1 and j-1
-                   dp[i][j] = 1 + prev[j-1];
+                   curr[j] = 1 + prev[j-1];
                 else
-                   dp[i][j] = max(prev[j], curr[j-1]);
+                   curr[j] = max(prev[j], curr[j-1]);
             }
+            prev = curr;
         }
-        return dp[n][m];
+        return curr[m];
     }
     public:
     //Function to find the length of longest common subsequence in two strings.
@@ -87,7 +88,7 @@ class Solution
         // return solveMem(x-1, y-1, s1, s2, dp);
         
         
-       return solveTab(x, y, s1, s2);   //right shft the indexes for base case 
+       return solveSpace(x, y, s1, s2);   //right shft the indexes for base case 
        /// so send index as n and m
         
         
