@@ -22,7 +22,24 @@ As we can clearly see all the levels of above two binary trees
 are anagrams of each other, hence return true.
 </span></pre>
 
-<p>&nbsp;</p>
+<p><span style="font-size:18px"><strong>Example 2:</strong></span></p>
+
+<pre><span style="font-size:18px"><strong>Input:
+<img alt="" src="https://media.geeksforgeeks.org/wp-content/uploads/20221119111710/WhatsAppImage20221119at111602AM.jpeg" style="height:253px; width:573px">
+Output: 0</strong>
+<strong>Explanation:</strong> 
+<strong>Tree 1:
+</strong>Level 0 : 1
+Level 1 : 2, 3 
+Level 2 : 5, 4 
+
+<strong>Tree 2:</strong> 
+Level 0 : 1 
+Level 1 : 2, 4 
+Level 2 : 5, 3 
+
+As we can clearly see that level 1 and leve 2 are not anagrams of each other, hence return false.</span>
+</pre>
 
 <p><span style="font-size:18px"><strong>Your Task:&nbsp;&nbsp;</strong><br>
 You don't need to read input or print anything. Your task is to complete the function <strong>areAnagrams</strong><strong>()</strong>&nbsp;which takes the root of two trees as input&nbsp;and returns an 1 if all the levels are anagrams, else returns 0&nbsp;as output.</span><br>
