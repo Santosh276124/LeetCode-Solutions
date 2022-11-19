@@ -136,7 +136,7 @@ class Solution{
     Node* curr1 = NULL;
     Node* curr2 = NULL;
     
-    while(!q1.empty() && !q2.empty())
+    while(!q1.empty() || !q2.empty())
     {
         int len1 = q1.size();
         int len2 = q2.size();
