@@ -80,50 +80,94 @@ Node* buildTree(string str) {
 //User function Template for C++
 
 class Solution{
-    vector<int> PrintLevelOrder(Node* root)
-    {
-              vector<int> ans;
+    // vector<int> PrintLevelOrder(Node* root)
+    // {
+    //           vector<int> ans;
        
-              queue<Node*> q;
-              q.push(root);
-              Node* curr = NULL;
+    //           queue<Node*> q;
+    //           q.push(root);
+    //           Node* curr = NULL;
         
-              while(!q.empty()){
+    //           while(!q.empty()){
                 
-                int len = q.size();
-                for(int i = 0; i < len; i++)
-                {
-                    curr = q.front();
-                    q.pop();
+    //             int len = q.size();
+    //             for(int i = 0; i < len; i++)
+    //             {
+    //                 curr = q.front();
+    //                 q.pop();
                     
-                    ans.push_back(curr->data);
+    //                 ans.push_back(curr->data);
                     
-                    if(curr->left) q.push(curr->left);
-                    if(curr->right) q.push(curr->right);
-                }
-              }
+    //                 if(curr->left) q.push(curr->left);
+    //                 if(curr->right) q.push(curr->right);
+    //             }
+    //           }
             
-            return ans;
-    }
+    //         return ans;
+    // }
     public:
     bool areAnagrams(Node *root1, Node *root2)
     {
         
-      vector<int> levelForOne = PrintLevelOrder(root1);
-       vector<int> levelForTwo = PrintLevelOrder(root2);
+    //   vector<int> levelForOne = PrintLevelOrder(root1);
+    //   vector<int> levelForTwo = PrintLevelOrder(root2);
        
-       if(levelForTwo.size() != levelForOne.size()) return false;
+    //   if(levelForTwo.size() != levelForOne.size()) return false;
          
-        sort(levelForOne.begin(), levelForOne.end());
-        sort(levelForTwo.begin(), levelForTwo.end());
+    //     sort(levelForOne.begin(), levelForOne.end());
+    //     sort(levelForTwo.begin(), levelForTwo.end());
         
-        for(int i = 0; i < levelForOne.size(); i++)
+    //     for(int i = 0; i < levelForOne.size(); i++)
+    //     {
+    //         if(levelForOne[i] != levelForTwo[i]) 
+    //             return false;
+    //     }
+    //     return true;
+    
+    if(root1 == NULL && root2 == NULL) return true;
+    if(root1== NULL && root2 != NULL) return false;
+     if(root1!= NULL && root2 == NULL) return false;
+    
+    queue<Node*> q1;
+    queue<Node*> q2;
+    q1.push(root1);
+    q2.push(root2);
+    
+    Node* curr1 = NULL;
+    Node* curr2 = NULL;
+    
+    while(!q1.empty() && !q2.empty())
+    {
+        int len1 = q1.size();
+        int len2 = q2.size();
+        vector<int> temp1;
+        vector<int> temp2;
+        for(int i = 0; i < len1; i++)
         {
-            if(levelForOne[i] != levelForTwo[i]) 
-                return false;
+            curr1 = q1.front();
+            q1.pop();
+            temp1.push_back(curr1->data);
+            if(curr1->left) q1.push(curr1->left);
+            if(curr1->right) q1.push(curr1->right);
         }
-     
-        return true;
+        
+         for(int i = 0; i < len2; i++)
+        {
+            curr2 = q2.front();
+            q2.pop();
+            temp2.push_back(curr2->data);
+            if(curr2->left) q2.push(curr2->left);
+            if(curr2->right) q2.push(curr2->right);
+        }
+        
+        sort(temp1.begin(), temp1.end());
+        sort(temp2.begin(), temp2.end());
+        
+        if(temp1 != temp2) return false;
+    }
+    
+    return true;
+    
     }
 };
 
