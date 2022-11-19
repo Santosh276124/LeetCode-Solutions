@@ -140,13 +140,15 @@ class Solution{
     {
         int len1 = q1.size();
         int len2 = q2.size();
-        vector<int> temp1;
-        vector<int> temp2;
+        map<int,int> m;
+        // vector<int> temp1;
+        // vector<int> temp2;
         for(int i = 0; i < len1; i++)
         {
             curr1 = q1.front();
             q1.pop();
-            temp1.push_back(curr1->data);
+            // temp1.push_back(curr1->data);
+            m[curr1->data]++;
             if(curr1->left) q1.push(curr1->left);
             if(curr1->right) q1.push(curr1->right);
         }
@@ -155,15 +157,23 @@ class Solution{
         {
             curr2 = q2.front();
             q2.pop();
-            temp2.push_back(curr2->data);
+            if(m.count(curr2->data))
+            {
+                m[curr2->data]--;
+                if(m[curr2->data] == 0) m.erase(curr2->data);
+            }
+            else return false;
+            // temp2.push_back(curr2->data);
             if(curr2->left) q2.push(curr2->left);
             if(curr2->right) q2.push(curr2->right);
         }
         
-        sort(temp1.begin(), temp1.end());
-        sort(temp2.begin(), temp2.end());
+        if(m.size() != 0) return false;
         
-        if(temp1 != temp2) return false;
+        // sort(temp1.begin(), temp1.end());
+        // sort(temp2.begin(), temp2.end());
+        
+        // if(temp1 != temp2) return false;
     }
     
     return true;
