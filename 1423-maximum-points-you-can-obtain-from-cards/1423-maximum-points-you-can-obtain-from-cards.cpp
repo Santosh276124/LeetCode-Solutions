@@ -12,7 +12,7 @@ public:
          
         if(n == k) return totalSum;
         int j = 0;
-        int minSum = totalSum;
+        int minSum = 0;
         int sum = 0;
         for(int i = 0; i < n; i++)
         {
@@ -20,7 +20,7 @@ public:
             
             if(i-j+1 == n-k)
             {
-                minSum = min(minSum, sum);
+                minSum = max(minSum, totalSum-sum);
                 sum -= nums[j];
                 j++;
             }
@@ -28,6 +28,6 @@ public:
        
      
         
-        return totalSum-minSum;
+        return minSum;
     }
 };
