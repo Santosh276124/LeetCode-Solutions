@@ -10,7 +10,7 @@ class Solution {
             return;
         }
         
-        if(target < 0 || i == nums.size()) 
+        if( i == nums.size()) 
         {
              return;
         }
@@ -21,8 +21,8 @@ class Solution {
         
 //         Include
         temp.push_back(nums[i]);
-        
-        solve(nums, target-nums[i], i);
+        if(nums[i] <= target)
+          solve(nums, target-nums[i], i);
         //Backrack
         temp.pop_back();
   
