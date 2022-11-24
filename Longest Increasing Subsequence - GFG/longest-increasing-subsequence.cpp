@@ -54,6 +54,27 @@ class Solution
         }
         return dp[0][-1+1];
     }
+    
+    int solveSpace(int n, int a[])
+    {
+       vector<int> next(n+1, 0), curr(n+1, 0);
+       
+          
+        for(int ind = n-1; ind >= 0; ind--)
+        {
+            for(int prevInd = ind-1; prevInd >= -1; prevInd--)
+            {
+                  int excl = 0 + next[prevInd+1];
+                  int incl = 0;
+                  if(prevInd == -1 || a[ind] > a[prevInd] )
+                        incl = 1 + next[ind+1];
+                        
+                   curr[prevInd+1] = max(excl, incl);
+            }
+            next = curr;
+        }
+        return curr[-1+1];
+    }
     public:
     //Function to find length of longest increasing subsequence.
     int longestSubsequence(int n, int a[])
@@ -64,7 +85,9 @@ class Solution
         // vector<vector<int>> dp(n, vector<int>(n+1,-1));  //right shift for prevInd
         // return solveMem(0, -1, n, a, dp);
         
-        return solveTab(n, a);
+        // return solveTab(n, a);
+        
+        return solveSpace(n, a);
     }
 };
 
