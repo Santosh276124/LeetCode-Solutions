@@ -61,6 +61,37 @@ class Solution {
          }
          return dp[n][m];
      }
+    
+     int solveSpace(string &s1, string &s2)
+     {
+         int n = s1.length();
+         int m = s2.length();
+         
+         vector<int> prev(m+1, 0), curr(m+1, 0);
+         
+         for(int j = 0; j<= m; j++) prev[j] = j;
+         
+         
+         for(int i = 1; i<= n; i++)
+         {
+             curr[0] = i;
+             for(int j = 1; j <= m; j++)
+             {
+                 if(s1[i-1] == s2[j-1])
+                    curr[j] = prev[j-1];
+                 
+                 else{
+                    int insert = 1 + curr[j-1];
+                    int deletion = 1 + prev[j];
+                    int replace = 1 + prev[j-1];
+
+                      curr[j] = min({insert, deletion, replace});
+                 }
+             }
+             prev = curr;
+         }
+         return prev[m];
+     }
 public:
     int minDistance(string word1, string word2) {
         
@@ -73,6 +104,7 @@ public:
         // vector<vector<int>> dp(n+1, vector<int>(m+1, -1));
         // return solveMem(n, m, word1, word2, dp);
         
-        return solveTab(word1, word2);
+        // return solveTab(word1, word2);
+        return solveSpace(word1, word2);
     }
 };
