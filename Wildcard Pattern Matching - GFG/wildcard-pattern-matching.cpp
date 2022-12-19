@@ -30,13 +30,13 @@ class Solution{
     
      bool Mem(int i, int j, string &pattern, string &str, vector<vector<int>>&dp)
     {
-        if(i < 0 && j < 0) return true;
-        if(i < 0 && j >= 0) return false;
-        if(j < 0 && i >= 0)
+        if(i == 0 && j == 0) return true;
+        if(i == 0 && j > 0) return false;
+        if(j == 0 && i > 0)
         {
-            for(int k = 0; k <= i; k++)
+            for(int k = 1; k <= i; k++)
             {
-                if(pattern[k] != '*')
+                if(pattern[k-1] != '*')
                     return false;
             }
             return true;
@@ -44,10 +44,10 @@ class Solution{
         
         if(dp[i][j] != -1) return dp[i][j];
         
-        if(pattern[i] == str[j] || pattern[i] == '?')
+        if(pattern[i-1] == str[j-1] || pattern[i-1] == '?')
           return dp[i][j] = Mem(i-1, j-1, pattern, str, dp);
         
-        if(pattern[i] == '*')
+        if(pattern[i-1] == '*')
           return dp[i][j] = (Mem(i-1, j, pattern, str, dp) | Mem(i, j-1, pattern, str, dp));
          
         return dp[i][j] = false; 
@@ -61,7 +61,7 @@ class Solution{
         int m = str.length();
         
         vector<vector<int>> dp(n+1, vector<int>(m+1, -1));
-        return Mem(n-1, m-1, pattern, str, dp);
+        return Mem(n, m, pattern, str, dp);
     }
 };
 
