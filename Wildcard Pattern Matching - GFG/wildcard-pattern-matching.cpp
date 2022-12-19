@@ -90,6 +90,45 @@ class Solution{
         return dp[n][m];
         
     }
+    
+    bool space( string &pattern, string &str)
+    {
+        int n = pattern.length();
+        int m = str.length();
+        
+        vector<bool> prev(m+1, false), curr(m+1, false);
+        
+        prev[0] = true;
+        for(int j = 1; j <= m; j++) prev[j] = false;
+        
+        
+        for(int i = 1; i <= n; i++)
+        {
+           //assigning evry rows 0th column 
+                bool flag = true;
+                for(int k = 1; k <= i; k++)
+                {
+                    if(pattern[k-1] != '*')
+                        flag = false;
+                }
+                curr[0] = flag;
+            
+            for(int j = 1; j <= m; j++)
+            {
+                if(pattern[i-1] == str[j-1] || pattern[i-1] == '?')
+                   curr[j] = prev[j-1];
+                
+                else if(pattern[i-1] == '*')
+                   curr[j] = curr[j-1] | prev[j];
+                 
+                else curr[j] = false;
+            }
+            prev = curr;
+        }
+        
+        return prev[m];
+        
+    }
   public:
 /*You are required to complete this method*/
     int wildCard(string pattern,string str)
@@ -100,7 +139,8 @@ class Solution{
         // vector<vector<int>> dp(n+1, vector<int>(m+1, -1));
         // return Mem(n, m, pattern, str, dp);
         
-        return Tab(pattern, str);
+        // return Tab(pattern, str);
+        return space(pattern, str);
     }
 };
 
