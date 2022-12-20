@@ -2,7 +2,7 @@ class Solution {
 public:
     bool canVisitAllRooms(vector<vector<int>>& rooms) {
      
-        unordered_map<int,vector<int>> adj;
+        unordered_map<int,list<int>> adj;
         int n = rooms.size();
         for(int i = 0; i < rooms.size(); i++)
         {
