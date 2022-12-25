@@ -35,6 +35,8 @@ public:
                     tar = tar-nums[i];
                     cnt++;
                 }
+                else
+                    break;
             }
             ans.push_back(cnt);
         }
