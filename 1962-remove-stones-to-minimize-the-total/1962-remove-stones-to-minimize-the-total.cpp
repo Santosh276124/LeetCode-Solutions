@@ -16,8 +16,8 @@ public:
             float el = pq.top();
             pq.pop();
             
-            el /= 2;
-            el = ceil(el);
+            // el /= 2;
+            el = ceil(el/2);
             // cout<<el<<" ";
             
             pq.push(el);
