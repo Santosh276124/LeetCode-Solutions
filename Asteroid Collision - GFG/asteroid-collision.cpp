@@ -19,33 +19,21 @@ class Solution {
             
             else //a[i] < 0
             {
-                bool flag = true;
-                while(!s.empty())
-                {
-                    //1
-                    if(s.top() < 0) break;
-                    
-                    else if(s.top() > 0 && s.top() < abs(a[i]))
-                      s.pop();
-                      
-                    else if(s.top() > 0 && s.top() > abs(a[i]))
-                    {
-                        flag = false;
-                        break;
-                    }
-                    
-                    else if(s.top() == abs(a[i]))
-                    {
-                        flag = false;
-                        s.pop();
-                        break;
-                    }
-                }
+                // case1 s.top > 0 && < a[i]
+                while(!s.empty() && s.top() > 0 && s.top() < abs(a[i]))
+                  s.pop();
+                  
+                // case2  s.top() > 0 && > a[i]
+                // kuchh nhi krna hai (i++) handled by for loop
                 
-                if(flag)
-                {
-                    s.push(a[i]);
-                }
+                // case 3
+                if(s.empty() || s.top() < 0)
+                  s.push(a[i]);
+                  
+                // case 4 -> s.top == abs(a[i])
+                if(!s.empty() && s.top() + a[i] == 0)
+                  s.pop(); // i++ handled by for loop
+                
             }
              
         }
