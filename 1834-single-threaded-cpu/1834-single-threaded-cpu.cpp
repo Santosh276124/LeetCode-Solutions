@@ -13,16 +13,16 @@ public:
         priority_queue<pair<int,int>, vector<pair<int,int>> , greater<pair<int,int>> >pq;
         
         int ind = 0;
-        long long currTime = tasks[ind][0];
+        long long currTime = 0;
         
         vector<int> ans;
         
         while(ind < n || !pq.empty())
-        {
-//             if(pq.empty() && ind < n)
-//             {
-                
-//             }
+        {           
+            if(pq.empty() && currTime < tasks[ind][0])
+            {
+                currTime = tasks[ind][0];
+            }
             
             
             while(ind < n && tasks[ind][0] <= currTime)
@@ -31,19 +31,14 @@ public:
                 ind++;
             }
             
-            if(pq.empty())
-            {
-                currTime = tasks[ind][0];
-            }
-           else
-           {
-                pair<int,int> el = pq.top();
-                pq.pop();
+            
+            pair<int,int> el = pq.top();
+            pq.pop();
 
-                currTime += el.first;
+            currTime += el.first;
 
-                ans.push_back(el.second);
-           }
+            ans.push_back(el.second);
+           
         }
         
         return ans;
