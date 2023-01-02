@@ -19,11 +19,11 @@ public:
         int cap = 0;
         for(int i = 0; i < len; i++)
         {
-            if(isCapital(word[i]))
+            if(isupper(word[i]))
                 cap++;
         }
         
-        if(cap==0 || ( cap == 1 && isCapital(word[0]) ) || cap == len) return true;
+        if(cap==0 || ( cap == 1 && isupper(word[0]) ) || cap == len) return true;
         return false;
     }
 };
