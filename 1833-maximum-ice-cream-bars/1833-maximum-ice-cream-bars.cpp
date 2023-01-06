@@ -31,6 +31,8 @@ public:
                 cnt++;
                 coins -= top;
             }
+            else
+                break;
           
         }
         
