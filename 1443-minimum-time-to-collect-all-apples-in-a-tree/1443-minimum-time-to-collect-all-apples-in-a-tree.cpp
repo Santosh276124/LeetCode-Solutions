@@ -2,33 +2,23 @@ class Solution {
 public:
     int minTime(int n, vector<vector<int>>& edges, vector<bool>& hasApple) {
         
-        unordered_map<int, int> nodeParent;
-        for (auto &e : edges){
-            if (nodeParent.find(e[1]) == nodeParent.end()) nodeParent[e[1]] = e[0];
-            else    nodeParent[e[0]] = e[1];
+         unordered_map<int, int> m;
+	std::sort(edges.begin(), edges.end());
+   for(auto const& edge : edges)  {
+        if (m.count(edge[1]) > 0) m[edge[0]] = edge[1];
+        else m[edge[1]] = edge[0];
+    }
+    int result = 0;
+    for(int i = 0; i < hasApple.size(); ++i) {
+        if (!hasApple[i]) continue;
+        int parent = i;
+        while(parent != 0 && m[parent] >= 0) {
+            auto temp = m[parent];
+            m[parent] = -1;
+            parent = temp;
+            result += 2;
         }
-        
-        queue<int> q;
-        
-        for (int i = 0; i < hasApple.size(); ++i)
-            if (hasApple[i])  q.push(i);
-        
-        while (!q.empty()){
-            int currIdx = q.front();
-            q.pop();
-            if (currIdx != 0){
-                int nextIdx = nodeParent[currIdx];
-				
-				// if the node has NOT yet visited, then add to the queue 
-                if (!hasApple[nextIdx]){
-                    hasApple[nextIdx] = true;
-                    q.push(nextIdx);
-                }
-            }
-        }
-        
-        int countPath = accumulate(hasApple.begin(), hasApple.end(), -1);
-        
-        return countPath <= 0 ? 0 : 2 * countPath;
+    }
+    return result;
     }
 };
