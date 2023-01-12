@@ -1,35 +1,44 @@
 class Solution {
- vector<int> array;
-public:
-    vector<int> countSubTrees(int n, vector<vector<int>>& edges, string labels) {
-        array.resize(n); //output array
-        
-        //creating adjacency list
-        vector<vector<int>> a(n);
-        for(auto x:edges){
-            a[x[0]].push_back(x[1]);
-            a[x[1]].push_back(x[0]);
-        }
-        dfs(-1,0,a,labels);
-        return array;
-    }
-
-    vector<int> dfs(int prev,int curr,vector<vector<int>>& a,string& labels)
+    vector<int> dfs(int node, int parent, unordered_map<int,list<int>>& adj, string &labels, vector<int> &ans)
     {
-        vector<int> ans(26); 
-        for(auto x:a[curr])
+        vector<int> myCount(26, 0);
+        char myLabel = labels[node];
+        myCount[myLabel-'a'] = 1;
+        
+        for(auto child : adj[node])
         {
-            if(prev!=x)
+            if(child == parent) continue;
+            
+            vector<int> childCount = dfs(child, node, adj, labels, ans);
+            
+            for(int i = 0; i < 26; i++)
             {
-            // array return by the children node
-                vector<int> res = dfs(curr,x,a,labels); 
-            // combining the frequencies of left and right subtrees into one array
-                for(int i=0;i<26;i++) 
-                    ans[i]+=res[i];
+                myCount[i] += childCount[i];
             }
         }
-        // incrementing the freq of curr node label and storing in output array
-        array[curr] = ++ans[labels[curr]-'a'];
+        
+        //update ans for current node
+        ans[node] = myCount[myLabel-'a'];
+        
+        return myCount;
+        
+    }
+public:
+    vector<int> countSubTrees(int n, vector<vector<int>>& edges, string labels) {
+        
+        unordered_map<int,list<int>>adj;
+        for(int i = 0; i < edges.size(); i++)
+        {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        vector<int> ans(n);
+        
+        dfs(0, -1, adj, labels, ans);
+        
         return ans;
     }
 };
