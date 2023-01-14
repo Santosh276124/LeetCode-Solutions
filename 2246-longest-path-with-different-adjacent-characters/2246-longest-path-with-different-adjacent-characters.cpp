@@ -24,13 +24,14 @@ public:
         
         int neeche_hi_answer_mil_gya = 1 + longest + second_longest;
         
-        int koi_ek_acha = 1 + max(longest, second_longest);
+        // int koi_ek_acha = 1 + max(longest, second_longest);
+        int koi_ek_acha = 1 + longest;
         
-        int sirf_root_acha = 1;
+        // int sirf_root_acha = 1;
         
-        maxLen = max({maxLen, neeche_hi_answer_mil_gya, koi_ek_acha, sirf_root_acha});
+        maxLen = max({maxLen, neeche_hi_answer_mil_gya, koi_ek_acha});
         
-        return max(koi_ek_acha, sirf_root_acha);
+        return koi_ek_acha;
     }
     int longestPath(vector<int>& parent, string s) {
         
