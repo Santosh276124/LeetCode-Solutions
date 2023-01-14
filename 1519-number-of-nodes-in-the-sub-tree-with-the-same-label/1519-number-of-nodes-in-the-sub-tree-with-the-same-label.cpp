@@ -1,26 +1,25 @@
 class Solution {
-    vector<int> dfs(int node, int parent, unordered_map<int,list<int>>& adj, string &labels, vector<int> &ans)
+    void dfs(int node, int parent, unordered_map<int,list<int>>& adj, string &labels, vector<int> &count, vector<int> &ans)
     {
-        vector<int> myCount(26, 0);
-        char myLabel = labels[node];
-        myCount[myLabel-'a'] = 1;
+       
+        int before_visiting_current_node_label_count = count[labels[node]-'a'];
+        
+        count[labels[node]-'a']++;
         
         for(auto child : adj[node])
         {
             if(child == parent) continue;
             
-            vector<int> childCount = dfs(child, node, adj, labels, ans);
+            dfs(child, node, adj, labels, count, ans);
             
-            for(int i = 0; i < 26; i++)
-            {
-                myCount[i] += childCount[i];
-            }
         }
         
-        //update ans for current node
-        ans[node] = myCount[myLabel-'a'];
+         int after_visiting_current_node_label_count = count[labels[node]-'a'];
         
-        return myCount;
+        //update ans for current node
+        ans[node] = after_visiting_current_node_label_count - before_visiting_current_node_label_count;
+        
+        return;
         
     }
 public:
@@ -36,8 +35,9 @@ public:
             adj[v].push_back(u);
         }
         vector<int> ans(n);
+        vector<int> count(26, 0);
         
-        dfs(0, -1, adj, labels, ans);
+        dfs(0, -1, adj, labels, count, ans);
         
         return ans;
     }
