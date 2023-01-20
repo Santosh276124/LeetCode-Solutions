@@ -6,6 +6,30 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
+  
+  int solveTab(vector<int>& height)
+  {
+      int n = height.size();
+      vector<int> dp(n+1, 0);
+      
+    
+      
+      for(int ind = 1; ind < n; ind++)
+      {
+          int one = INT_MAX;
+          if(ind-1 >= 0)
+           one = abs(height[ind]-height[ind-1])+ dp[ind-1];
+          
+          int two = INT_MAX;
+          if(ind-2 >= 0)
+           two = abs(height[ind]-height[ind-2])+ dp[ind-2];
+          
+          dp[ind] = min(one, two);
+      }
+      
+      return dp[n-1];
+  }
+  
   int solve(int ind, vector<int> &height, vector<int> &dp)
   {
       if(ind  < 0) return 0;
@@ -30,9 +54,11 @@ class Solution {
         
         // Code here
         
-        vector<int> dp(n+1, -1);
+        // vector<int> dp(n+1, -1);
         
-        return solve(n-1 , height, dp);
+        // return solve(n-1 , height, dp);
+        
+        return solveTab(height);
     }
 };
 
