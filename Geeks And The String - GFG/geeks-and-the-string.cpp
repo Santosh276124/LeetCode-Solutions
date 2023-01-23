@@ -8,36 +8,54 @@ class Solution {
   public:
     string removePair(string s) {
         // code here
-        stack<char> st;
+        // stack<char> st;
         
-        for(int i = 0; i < s.length(); i++)
-        {
-            
-           
-              
-            if(!st.empty() && s[i] == st.top())
-             {
-                 st.pop();
-                 continue;
-             }
+        // for(int i = 0; i < s.length(); i++)
+        // {
+
+        //     if(!st.empty() && s[i] == st.top())
+        //      {
+        //          st.pop();
+        //          continue;
+        //      }
              
-            
-            st.push(s[i]);
-        }
+        //     st.push(s[i]);
+        // }
+        
+        // string ans = "";
+        
+        // if(st.size() == 0) return "-1";
+        
+        // while(!st.empty())
+        // {
+        //     ans += st.top();
+        //     st.pop();
+        // }
+        
+        // reverse(ans.begin(), ans.end());
+        
+        // return  ans;
         
         string ans = "";
         
-        if(st.size() == 0) return "-1";
-        
-        while(!st.empty())
+        for(int i = 0; i < s.length(); i++)
         {
-            ans += st.top();
-            st.pop();
+            if(!ans.empty() && s[i] == ans.back())
+            {
+                ans.pop_back();
+            }
+            else
+            {
+                ans.push_back(s[i]);
+            }
         }
         
-        reverse(ans.begin(), ans.end());
         
-        return  ans;
+        if(ans.size() == 0) return "-1";
+        return ans;
+        
+        
+        
     }
 };
 
