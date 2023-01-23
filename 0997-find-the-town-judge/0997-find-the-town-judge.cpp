@@ -1,44 +1,27 @@
-class Solution {
-public:
-    int findJudge(int n, vector<vector<int>>& trust) {
-        
-        if(trust.size() == 0 && n == 1) return n;
-        
-        unordered_map<int,vector<int> > adj;
-        
-        for(int i = 0; i < trust.size(); i++){
-            int u = trust[i][0];
-            int v = trust[i][1];
-            
-            adj[v].push_back(u);
-        }
-        
-
-        
-        vector<bool> vis(n);
-        
-        for(auto m : adj)
+class Solution
+{
+    public:
+        int findJudge(int n, vector<vector < int>> &trust)
         {
-            for(auto j : m.second)
-            {
-                vis[j] = true;
-            }
-        }
-        
-        
-            for(auto child : adj){
-          
-            // cout<<child.first<<" ";
-            // vector<int> temp = child.second;
-            if(child.second.size() == n-1 &&vis[child.first] == false )
-            {
-                return child.first;
-            }
-            // else return -1;
+
+            if (trust.size() == 0 && n == 1) return n;
+
             
-        }
+            vector<int> in(n+1, 0);
+            vector<int> out(n+1, 0);
             
-        return -1;
-        
-    }
+            for(auto child : trust)
+            {
+                out[child[0]]++;
+                in[child[1]]++;
+            }
+            
+            for(int i = 1; i <= n; i++)
+            {
+                if(out[i] == 0 && in[i] == n-1) 
+                    return i;
+            }
+            
+            return -1;
+        }
 };
