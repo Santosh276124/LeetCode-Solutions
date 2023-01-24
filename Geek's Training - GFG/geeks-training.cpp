@@ -58,10 +58,42 @@ class Solution {
       
       return dp[ind][prev] = maxPoint;
   }
+   int solveTab(vector<vector<int>>& points, int n)
+  {
+     vector<vector<int>> dp(n+1, vector<int>(4, 0));
+     
+     dp[0][0] = max(points[0][1], points[0][2]);
+     dp[0][1] = max(points[0][0], points[0][2]);
+     dp[0][2] = max(points[0][0], points[0][1]);
+     dp[0][3] = max(points[0][1], max( points[0][2], points[0][0]));
+     
+     for(int ind = 1; ind < n; ind++)
+     {
+         for(int prev = 0; prev < 4; prev++)
+         {
+             int maxPoint = 0;
+              for(int i = 0; i < 3; i++)
+              {
+                  if(i != prev)
+                  {
+                      int take = points[ind][i] + dp[ind-1][i]; 
+                      maxPoint = max(maxPoint, take);
+                      
+                  }
+              }
+              
+               dp[ind][prev] = maxPoint;
+         }
+     }
+     
+     return dp[n-1][3];
+  }
     int maximumPoints(vector<vector<int>>& points, int n) {
         // Code here 
-        vector<vector<int>> dp(n+1, vector<int>(4, -1));
-        return solveMem(n-1, 3, points, n, dp);
+        // vector<vector<int>> dp(n+1, vector<int>(4, -1));
+        // return solveMem(n-1, 3, points, n, dp);
+        
+        return solveTab(points, n);
     }
 };
 
