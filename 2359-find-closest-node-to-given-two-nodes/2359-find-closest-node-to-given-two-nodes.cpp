@@ -17,6 +17,30 @@ public:
             dfs(child, edges, dist, vis);
         }
     }
+    void bfs(int node, vector<int> &edges, vector<int>& dist, vector<bool>& vis )
+    {
+        queue<int> q;
+        q.push(node);
+        
+        dist[node] = 0;
+        vis[node] = true;
+        while(!q.empty())
+        {
+            int top = q.front();
+            q.pop();
+            
+            int child = edges[top];
+            
+            if(child != -1 && !vis[child])
+            {
+                vis[child] = true;
+                dist[child] = 1 + dist[top];
+                q.push(child);
+            }
+        }
+        
+        
+    }
     int closestMeetingNode(vector<int>& edges, int node1, int node2) {
         
         n = edges.size();
@@ -30,8 +54,11 @@ public:
         dist1[node1] = 0;
         dist2[node2] = 0;
         
-        dfs(node1, edges, dist1, vis1);
-        dfs(node2, edges, dist2, vis2);
+        // dfs(node1, edges, dist1, vis1);
+        // dfs(node2, edges, dist2, vis2);
+        
+        bfs(node1, edges, dist1, vis1);
+        bfs(node2, edges, dist2, vis2);
         
        
         int mini = 1e9;
@@ -48,7 +75,6 @@ public:
                 
                 ansNode = i;
             }
-            
             
         }
         
