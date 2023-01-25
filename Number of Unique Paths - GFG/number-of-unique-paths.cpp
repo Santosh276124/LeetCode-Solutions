@@ -33,12 +33,37 @@ class Solution
         
         return dp[i][j] = top + left;
     }
+    
+    int Tab(int n, int m)
+    {
+        
+        vector<vector<int>> dp(n, vector<int>(m, 0));
+        
+        for(int j = 0; j < m; j++) dp[0][j] = 1;
+        for(int i = 0; i < n; i++) dp[i][0] = 1;
+        
+        for(int i = 1; i < n; i++)
+        {
+            for(int j = 1; j < m; j++)
+            {
+                
+                int top = dp[i-1][j];
+                int left = dp[i][j-1];
+                
+                 dp[i][j] = top + left;
+            }
+        }
+        
+        return dp[n-1][m-1];
+    }
     //Function to find total number of unique paths.
     int NumberOfPath(int n, int m)
     {
         //code here
-        vector<vector<int>> dp(n+1, vector<int>(m+1, -1));
-        return Mem(n-1, m-1, n, m, dp);
+        // vector<vector<int>> dp(n+1, vector<int>(m+1, -1));
+        // return Mem(n-1, m-1, n, m, dp);
+        
+        return Tab(n, m);
     }
 };
 
