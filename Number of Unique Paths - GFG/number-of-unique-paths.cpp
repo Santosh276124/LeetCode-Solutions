@@ -56,6 +56,38 @@ class Solution
         
         return dp[n-1][m-1];
     }
+    
+    
+    int space(int n, int m)
+    {
+        
+        vector<int> prev(m, 0);
+
+        
+        for(int i = 0; i < n; i++)
+        {
+            vector<int> curr(m, 0);
+            for(int j = 0; j < m; j++)
+            {
+                
+                if(i == 0 && j == 0) curr[j] = 1;
+                else{
+                    int top = 0;
+                    int left = 0;
+                    if(j >= 0)
+                       top = prev[j];
+                     
+                    if(j-1 >= 0)
+                       left = curr[j-1];
+                    
+                     curr[j] = top + left;
+                }
+            }
+            prev = curr;
+        }
+        
+        return prev[m-1];
+    }
     //Function to find total number of unique paths.
     int NumberOfPath(int n, int m)
     {
@@ -63,7 +95,7 @@ class Solution
         // vector<vector<int>> dp(n+1, vector<int>(m+1, -1));
         // return Mem(n-1, m-1, n, m, dp);
         
-        return Tab(n, m);
+        return space(n, m);
     }
 };
 
