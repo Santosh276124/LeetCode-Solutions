@@ -17,21 +17,21 @@ class Solution
             }
             
            
-            priority_queue< pair<int,pair<int,int>> > pq;
+            queue< pair<int,pair<int,int>> > pq;
             
-            pq.push({0, {0, src}}); //stop, dist, node
+            pq.push({0, {src, 0}}); //stop, node, dist
             
             vector<int> dist(n, 1e9);
             dist[src] = 0;
             
             while(!pq.empty())
             {
-                auto top = pq.top();
+                auto top = pq.front();
                 pq.pop();
                 
                 int stops = top.first;
-                int node = top.second.second;
-                int nodeDist = top.second.first;
+                int node = top.second.first;
+                int nodeDist = top.second.second;
                 
                 if(stops > k) continue;
                 
@@ -44,7 +44,7 @@ class Solution
                     {
                         dist[childNode] = nodeDist + childDist;
                         
-                        pq.push( { stops+1, {dist[childNode], childNode} } );
+                        pq.push( { stops+1, {childNode, dist[childNode]} } );
                     }
                 }
             }
