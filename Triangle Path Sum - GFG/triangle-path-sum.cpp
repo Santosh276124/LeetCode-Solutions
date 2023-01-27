@@ -29,7 +29,7 @@ class Solution {
           
       for(int i = n-2; i >= 0; i--)
       {
-          for(int j = n-1; j >= 0; j--)
+          for(int j = i; j >= 0; j--)
           {
               int down = triangle[i][j] + dp[i+1][j];
               int downRight = triangle[i][j] + dp[i+1][j+1];
