@@ -19,11 +19,34 @@ class Solution {
       
       
   }
+  
+  int Tab(vector<vector<int>>& triangle)
+  {
+      vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
+      
+      for(int j = 0; j < n; j++) 
+          dp[n-1][j] = triangle[n-1][j];
+          
+      for(int i = n-2; i >= 0; i--)
+      {
+          for(int j = n-1; j >= 0; j--)
+          {
+              int down = triangle[i][j] + dp[i+1][j];
+              int downRight = triangle[i][j] + dp[i+1][j+1];
+              
+              dp[i][j] = min(down, downRight);
+          }
+      }
+      
+      return dp[0][0];
+  }
     int minimizeSum(int size, vector<vector<int>>& triangle) {
         // Code here
         n = size;
-        vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
-        return solve(0, 0, triangle, dp);
+        // vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
+        // return solve(0, 0, triangle, dp);
+        
+        return Tab(triangle);
     }
 };
 
