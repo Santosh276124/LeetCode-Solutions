@@ -25,17 +25,42 @@ public:
         
         return dp[i][j] = max({bottomRow, bottomRight, bottomLeft});
     }
+  
     int maximumPath(int len, vector<vector<int>> mat)
     {
         // code here
         n = len;
         int ans = 0;
-        vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
+        // vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
+        
+        // for(int j = 0; j < n; j++)
+        // {
+
+        //     int colMax = solve( mat);
+            
+        //     ans = max(ans, colMax);
+        // }
+        
+        vector<vector<int>> dp(n+1, vector<int>(n+1, -1e9));
+        
+        for(int j = 0; j < n; j++) dp[0][j] = mat[0][j];
+        
+        for(int i = 1; i < n; i++)
+        {
+            for(int j = 0; j < n; j++)
+            {
+                    int bottomRow = mat[i][j] + dp[i-1][j];
+                    int bottomRight = mat[i][j] + dp[i-1][j+1];
+                    int bottomLeft = mat[i][j] + dp[i-1][j-1];
+                    
+                    dp[i][j] = max({bottomRow, bottomRight, bottomLeft});
+            }
+        }
         
         for(int j = 0; j < n; j++)
         {
 
-            int colMax = solve(n-1, j, mat, dp);
+            int colMax = dp[n-1][j];
             
             ans = max(ans, colMax);
         }
