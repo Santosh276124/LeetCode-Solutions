@@ -34,11 +34,46 @@ class Solution{
         
         return dp[ind][canbuy] = profit;
     }
+    
+    long long Tab(vector<long long> &prices)
+    {
+        vector<vector<long long>> dp(n+1, vector<long long>(2, 0));
+        
+        dp[n][0] = dp[n][1] = 0;
+        
+        for(int ind = n-1; ind >= 0; ind--)
+        {
+            for(int canbuy = 0; canbuy <= 1; canbuy++)
+            {
+                long long profit = 0;
+        
+                //can buy
+                if(canbuy)
+                {
+                    /// if buy
+                    profit = max( -prices[ind] + dp[ind+1][0] , dp[ind+1][1] );
+                   
+                }
+                else //can not buy
+                {
+                    //
+                    profit = max( prices[ind] + dp[ind+1][1], dp[ind+1][0] );
+                   
+                }
+                
+                dp[ind][canbuy] = profit;
+            }
+        }
+        
+        return dp[0][1];
+    }
     long long maximumProfit(vector<long long>&prices, int len) {
         // Code here
         n = len;
-        vector<vector<long long>> dp(n, vector<long long>(2, -1));
-        return solve(0, 1, prices, dp);
+        // vector<vector<long long>> dp(n, vector<long long>(2, -1));
+        // return solve(0, 1, prices, dp);
+        
+        return Tab(prices);
     }
 };
 
