@@ -67,13 +67,48 @@ class Solution{
         
         return dp[0][1];
     }
+    
+    long long Space(vector<long long> &prices)
+    {
+        vector<long long> next(2, 0);
+        vector<long long> curr(2, 0);
+        
+        next[0] = next[1] = 0;
+        
+        for(int ind = n-1; ind >= 0; ind--)
+        {
+            for(int canbuy = 0; canbuy <= 1; canbuy++)
+            {
+                long long profit = 0;
+        
+                //can buy
+                if(canbuy)
+                {
+                    /// if buy
+                    profit = max( -prices[ind] + next[0] , next[1] );
+                   
+                }
+                else //can not buy
+                {
+                    //
+                    profit = max( prices[ind] + next[1], next[0] );
+                   
+                }
+                
+                curr[canbuy] = profit;
+            }
+            next = curr;
+        }
+        
+        return curr[1];
+    }
     long long maximumProfit(vector<long long>&prices, int len) {
         // Code here
         n = len;
         // vector<vector<long long>> dp(n, vector<long long>(2, -1));
         // return solve(0, 1, prices, dp);
         
-        return Tab(prices);
+        return Space(prices);
     }
 };
 
