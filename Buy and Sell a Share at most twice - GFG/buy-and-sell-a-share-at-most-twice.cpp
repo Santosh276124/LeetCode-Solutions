@@ -66,13 +66,47 @@ int Tab(vector<int> &prices, int n)
     return dp[0][1][2];
 }
 
+int Space(vector<int> &prices, int n)
+{
+    vector<vector<int>> next(2, vector<int>(3, 0));
+    vector<vector<int>> curr(2, vector<int>(3, 0));
+    
+    
+    for(int ind = n-1; ind >= 0; ind--)
+    {
+        for(int buy = 0; buy <= 1; buy++)
+        {
+            for(int cap = 1; cap <= 2; cap++)
+            {
+               
+                if(buy)
+                {
+                   curr[buy][cap] = max(-prices[ind] + next[0][cap] , 
+                                0 + next[1][cap] );
+                }
+            
+                else{
+                    
+                   curr[buy][cap] = max(prices[ind] + next[1][cap-1] , 
+                            0 + next[0][cap] );
+                }
+            }
+            
+        }
+        
+        next = curr;
+    }
+    
+    return next[1][2];
+}
+
 int maxProfit(vector<int>&price){
    
    int n = price.size();
 //   vector<vector<vector<int >>> dp(n,vector<vector<int>>(2, vector<int>(3, -1)));
 //     return f(0, 1, 2, price, n, dp);
 
-     return Tab(price, n);
+     return Space(price, n);
    
 }
 
