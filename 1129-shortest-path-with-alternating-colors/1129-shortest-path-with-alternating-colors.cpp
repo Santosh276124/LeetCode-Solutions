@@ -21,9 +21,9 @@ public:
         
         int prevC;  //-2 for red and -3 for blue  -1 for none
         
-        // queue<pair<int, pair<int,int>> >pq;
-        priority_queue< pair<int, pair<int,int>>, vector<pair<int,
-        pair<int,int>>>, greater<pair<int, pair<int,int>>> > pq;
+        queue<pair<int, pair<int,int>> >pq;
+        // priority_queue< pair<int, pair<int,int>>, vector<pair<int,
+        // pair<int,int>>>, greater<pair<int, pair<int,int>>> > pq;
         
         // vector<int> dist(n, 1e9);
         vector<vector<int>> dist(n, vector<int>(3, 1e9));
@@ -33,7 +33,7 @@ public:
         
         while(!pq.empty())
         {
-            auto top = pq.top();
+            auto top = pq.front();
             pq.pop();
             
             int topNode = top.second.first;
