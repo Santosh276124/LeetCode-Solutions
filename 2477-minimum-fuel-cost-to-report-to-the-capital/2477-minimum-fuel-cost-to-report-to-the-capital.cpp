@@ -1,9 +1,9 @@
 class Solution {
 public:
-    int dfs(const vector<vector<int>>& graph, int u, int prev, int seats,
+    int dfs(unordered_map<int,list<int>>& graph, int u, int prev, int seats,
           long long& ans) {
     int people = 1;
-    for (const int v : graph[u]) {
+    for ( auto v : graph[u]) {
       if (v == prev)
         continue;
       people += dfs(graph, v, u, seats, ans);
@@ -16,11 +16,12 @@ public:
     long long minimumFuelCost(vector<vector<int>>& roads, int seats) {
         
         long long ans = 0;
-    vector<vector<int>> graph(roads.size() + 1);
+    // vector<vector<int>> graph(roads.size() + 1);
+        unordered_map<int,list<int>> graph;
 
-    for (const vector<int>& road : roads) {
-      const int u = road[0];
-      const int v = road[1];
+    for (auto road : roads) {
+       int u = road[0];
+       int v = road[1];
       graph[u].push_back(v);
       graph[v].push_back(u);
     }
