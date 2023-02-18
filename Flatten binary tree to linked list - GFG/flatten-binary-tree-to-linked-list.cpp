@@ -102,23 +102,42 @@ class Solution
    
     void flatten(Node *root)
     {
-       if(root == NULL) return;
+    //   if(root == NULL) return;
        
-        flatten(root->left);
+    //     flatten(root->left);
         
-        flatten(root->right);
+    //     flatten(root->right);
         
-        if(root->left)
+    //     if(root->left)
+    //     {
+    //         Node* temp = root->right;
+    //         root->right = root->left;
+    //         root->left = NULL;
+    //         while(root->right)
+    //         {
+    //             root = root->right;
+    //         }
+    //         root->right = temp;
+    //     }
+    
+    // morris traversal
+    Node* curr = root;
+    while(curr != NULL)
+    {
+        if(curr->left)
         {
-            Node* temp = root->right;
-            root->right = root->left;
-            root->left = NULL;
-            while(root->right)
-            {
-                root = root->right;
-            }
-            root->right = temp;
+            Node* prev = curr->left;
+            while(prev->right)
+                prev = prev->right;
+                
+            prev->right = curr->right;
+            curr->right = curr->left;
+            curr->left = NULL;
+            
         }
+        
+        curr = curr->right;
+    }
         
     }
 };
