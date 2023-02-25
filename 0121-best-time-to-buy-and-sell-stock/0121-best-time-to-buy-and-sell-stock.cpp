@@ -1,24 +1,43 @@
 class Solution {
 public:
+    int n;
+//     int solve(int ind, int canBuy, vector<int> &prices)
+//     {
+//         if(ind >= n) return 0;
+        
+//         if(canBuy)
+//         {
+//             return max( -prices[ind] + solve(ind+1, 0, prices),
+//                          0 + solve(ind+1, 1, prices));
+//         }
+        
+//         return max( prices[ind] + solve(ind+1, 1, prices),
+//                     0 + solve(ind+1, 0, prices));
+//     }
     int maxProfit(vector<int>& prices) {
         
-        int n = prices.size();
-        int mini_in_left_of_ith_day = prices[0];
- 
-        int profit = 0;
-       
+        n = prices.size();
+        
+        // return solve(0, 1, prices);
+        
         int maxProfit = 0;
         
-        for(int i = 1; i < n; i++)
+        int currProfit = 0;
+        int currCost = prices[0];
+        
+        for(int i = 0; i < n; i++)
         {
-            profit = prices[i] - mini_in_left_of_ith_day;
-           
-            maxProfit  = max(maxProfit, profit);
+            currProfit = prices[i] - currCost;
             
-            mini_in_left_of_ith_day = min(mini_in_left_of_ith_day, prices[i]);
+            if(currProfit < 0)
+                currProfit = 0;
             
+            maxProfit = max(maxProfit, currProfit);
             
+            currCost = min(currCost, prices[i]);
         }
+        
         return maxProfit;
+        
     }
 };
