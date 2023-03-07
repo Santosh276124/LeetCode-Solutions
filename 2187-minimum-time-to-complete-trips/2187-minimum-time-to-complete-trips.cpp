@@ -13,8 +13,8 @@ public:
     }
     long long minimumTime(vector<int>& time, int totalTrips) {
         
-        long long s = *min_element(time.begin(), time.end());
-        long long e = 1LL * ( *max_element(time.begin(), time.end()) ) * totalTrips;
+        long long s = 1;
+        long long e = 1LL * ( *min_element(time.begin(), time.end()) ) * totalTrips;
         
         while(s < e)
         {
