@@ -34,6 +34,23 @@ class Solution {
         
         return false;
     }
+    bool dfs(int node, int parent, vector<int> adj[], vector<int> &vis)
+    {
+        vis[node] = 1;
+        
+        for(auto neigh : adj[node])
+        {
+            if(!vis[neigh])
+            {
+                if(dfs(neigh, node, adj, vis) == true)
+                    return true;
+            }
+            else if(parent != neigh)
+                return true;
+        }
+        
+        return false;
+    }
     // Function to detect cycle in an undirected graph.
     bool isCycle(int V, vector<int> adj[]) {
         // Code here
@@ -43,7 +60,7 @@ class Solution {
         {
             if(!vis[i])
             {
-                if(bfs(i, adj, vis))
+                if(dfs(i, -1, adj, vis))
                     return true;
             }
         }
