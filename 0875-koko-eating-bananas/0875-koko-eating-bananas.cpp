@@ -1,26 +1,20 @@
 class Solution {
-    bool isFeasible(int k, vector<int> &piles, int h)
+public:
+    int totalTimeTofinishWithMidSpeed(int mid, vector<int> &piles)
     {
         int cnt = 0;
-        
-        for(auto pile : piles)
+        for(int i = 0; i < piles.size(); i++)
         {
-            if(pile <= k)
+            if(piles[i] < mid)
                 cnt++;
+            else if(piles[i]%mid == 0)
+                cnt += piles[i]/mid;
             else
-            {
-                if(pile%k != 0)
-                    cnt += (pile/k + 1);
-                else
-                    cnt += pile/k;
-                    
-            }
-            
-            if(cnt > h) return false;
+                cnt += (piles[i]/mid + 1);
         }
-        return true;
+        
+        return cnt;
     }
-public:
     int minEatingSpeed(vector<int>& piles, int h) {
         
         int s = 1;
@@ -28,13 +22,16 @@ public:
         
         while(s < e)
         {
-            int mid = s+(e-s)/2;
+            int mid = s + (e-s)/2;
             
-            if(isFeasible(mid, piles, h))
+            if(totalTimeTofinishWithMidSpeed(mid, piles) <= h)
                 e = mid;
             else
                 s = mid+1;
         }
+        
         return s;
+        
+        
     }
 };
