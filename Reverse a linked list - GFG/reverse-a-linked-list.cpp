@@ -46,13 +46,29 @@ class Solution
         
         return prev;
     }
+    Node* recursive(Node* head)
+    {
+        if(head == NULL || head->next == NULL) return head;
+        
+        Node* newHead = recursive(head->next);
+        
+        head->next->next = head;
+        
+        head->next = NULL;
+        
+        return newHead;
+        
+    }
     //Function to reverse a linked list.
     struct Node* reverseList(struct Node *head)
     {
         if(head == NULL || head->next == NULL) return head;
         
         // app1 : iterative
-        return iterative(head);
+        // return iterative(head);
+        
+        // app2 : recursive
+        return recursive(head);
     }
     
 };
