@@ -11,12 +11,23 @@
 class Solution {
 public:
 
-    vector<int> nums;
+    // vector<int> nums;
+    int n;
+    ListNode* head;
     Solution(ListNode* head) {
+        // ListNode* curr = head;
+        // while(curr != NULL)
+        // {
+        //     nums.push_back(curr->val);
+        //     curr = curr->next;
+        // }
+        
+        n = 0;
+        this->head = head;
         ListNode* curr = head;
         while(curr != NULL)
         {
-            nums.push_back(curr->val);
+            n++;
             curr = curr->next;
         }
     
@@ -24,9 +35,18 @@ public:
     
     int getRandom() {
         
-        int n = nums.size();
+        // int n = nums.size();
+        // int ind = rand()%n;
+        // return nums[ind];
+        
         int ind = rand()%n;
-        return nums[ind];
+        ListNode* curr = head;
+        while(ind--)
+        {
+            curr = curr->next;
+        }
+        
+        return curr->val;
     }
 };
 
