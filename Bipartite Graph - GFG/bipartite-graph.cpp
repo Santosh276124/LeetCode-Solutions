@@ -28,14 +28,44 @@ bool dfs(int node, int prevC, vector<int> adj[], vector<int> &color)
 	    
 	    vector<int> color(V, -1);
 	    
-	    for(int i = 0; i < V; i++)
-	    {
-	        if(color[i] == -1){
-	          if(dfs(i, 0, adj, color) == false)
-	            return false;
-	        }
-	    }
-	    
+	   // for(int i = 0; i < V; i++)
+	   // {
+	   //     if(color[i] == -1){
+	   //       if(dfs(i, 0, adj, color) == false)
+	   //         return false;
+	   //     }
+	   // }
+	   
+	   //BFS
+	   
+	   for(int i = 0; i < V; i++)
+	   {
+	         if(color[i] == -1) {
+	           queue<pair<int,int>> q;
+        	   q.push({i, 0});
+        	   color[i] = 0;
+        	   
+        	   while(!q.empty())
+        	   {
+        	       auto front = q.front();
+        	       q.pop();
+        	       int node = front.first;
+        	       int prevC = front.second;
+        	       
+        	       for(auto neigh : adj[node])
+        	       {
+        	           if(color[neigh] == -1)
+        	           {
+        	               color[neigh] = !prevC;
+        	               q.push({neigh, !prevC});
+        	           }
+        	           else if(color[neigh] == prevC)
+        	                return false;
+        	       }
+        	   }
+	         }
+	   }
+	  
 	    return true;
 	}
 
