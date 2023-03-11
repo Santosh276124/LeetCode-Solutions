@@ -20,42 +20,33 @@
  * };
  */
 class Solution {
-    void copyNodes(ListNode* head, vector<int> &ans)
-    {
-       ListNode* temp = head;
-        while(temp != NULL)
-        {
-            ans.push_back(temp->val);
-            temp = temp->next;
-        }
-        
-        
-    }
-    
-    TreeNode* solve(int s, int e, vector<int> &ans)
-    {
-        if(s>e) return NULL;
-        
-        int mid = (s+e)/2;
-        
-        TreeNode* root = new TreeNode(ans[mid]);
-        
-        root->left = solve(s, mid-1, ans);
-        root->right = solve(mid+1, e, ans);
-        
-        return root;
-    }
 public:
     TreeNode* sortedListToBST(ListNode* head) {
         
-        
         if(head == NULL) return NULL;
+        if(head->next == NULL) return new TreeNode(head->val);
         
-        vector<int> ans;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        ListNode* prev = NULL;
         
-        copyNodes(head, ans);
+        while(fast != NULL && fast->next != NULL)
+        {
+            fast = fast->next->next;
+            prev = slow;
+            slow = slow->next;
+        }
         
-       return solve(0, ans.size()-1, ans);
+        prev->next = NULL;
+        
+        TreeNode* root = new TreeNode(slow->val);
+        
+        root->left = sortedListToBST(head);
+        
+        root->right = sortedListToBST(slow->next);
+        
+        return root;
+        
         
         
     }
