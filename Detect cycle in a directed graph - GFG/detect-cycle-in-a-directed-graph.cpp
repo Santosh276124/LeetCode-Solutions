@@ -27,17 +27,61 @@ class Solution {
     bool isCyclic(int V, vector<int> adj[]) {
         // code here
         
-        vector<int> vis(V, 0);
-        vector<int> pathVis(V, 0);
+        // vector<int> vis(V, 0);
+        // vector<int> pathVis(V, 0);
         
+        // for(int i = 0; i < V; i++)
+        // {
+        //     if(!vis[i])
+        //     {
+        //         if(dfs(i, adj, vis, pathVis)) return true;
+        //     }
+        // }
+        // return false;
+        
+        
+        //using BFS 
+        
+        vector<int> in(V, 0);
         for(int i = 0; i < V; i++)
         {
-            if(!vis[i])
+            for(auto neigh : adj[i])
             {
-                if(dfs(i, adj, vis, pathVis)) return true;
+                in[neigh]++;
             }
         }
-        return false;
+        
+        queue<int> q;
+        for(int i = 0; i < V; i++)
+        {
+            if(in[i] == 0)
+                q.push(i);
+        }
+        
+        vector<int> topo;
+        while(!q.empty())
+        {
+            int node = q.front();
+            q.pop();
+            topo.push_back(node);
+            
+            for(auto neigh : adj[node])
+            {
+                in[neigh]--;
+                if(in[neigh] == 0)
+                    q.push(neigh);
+            }
+        }
+        
+        return topo.size() != V;
+        
+        
+        
+        
+        
+        
+        
+        
     }
 };
 
