@@ -8,6 +8,29 @@ using namespace std;
 // User function Template for C++
 class Solution {
   public:
+    void dfs(int node, vector<int> adj[], vector<int> &vis, vector<int>& dis)
+    {
+        vis[node] = 1;
+        
+        for(auto neigh : adj[node])
+        {
+             if(1 + dis[node] < dis[neigh])
+            {
+                dis[neigh] = 1 + dis[node];
+                dfs(neigh, adj, vis, dis);
+            }
+            
+            // if(!vis[neigh])
+            // {
+                
+            // }
+            
+            
+     
+        }
+        
+        vis[node] = 0;
+    }
     vector<int> shortestPath(vector<vector<int>>& edges, int N,int M, int src){
         // code here
         
@@ -22,29 +45,34 @@ class Solution {
         }
         
         vector<int> dis(N, 1e9);
+        vector<int> vis(N, 0);
         
-        queue<pair<int,int>> q;  //<node, dist>
-        
-        q.push({src, 0});
         dis[src] = 0;
         
-        while(!q.empty())
-        {
-            auto front = q.front();
-            q.pop();
-            int node = front.first;
-            int nodeDist = front.second;
+        dfs(src, adj, vis, dis);
+        
+        // queue<pair<int,int>> q;  //<node, dist>
+        
+        // q.push({src, 0});
+        // dis[src] = 0;
+        
+        // while(!q.empty())
+        // {
+        //     auto front = q.front();
+        //     q.pop();
+        //     int node = front.first;
+        //     int nodeDist = front.second;
             
-            for(auto neigh : adj[node])
-            {
-                if(nodeDist + 1 < dis[neigh])
-                {
-                    dis[neigh] = 1 + nodeDist;
+        //     for(auto neigh : adj[node])
+        //     {
+        //         if(nodeDist + 1 < dis[neigh])
+        //         {
+        //             dis[neigh] = 1 + nodeDist;
                     
-                    q.push({neigh, dis[neigh]});
-                }
-            }
-        }
+        //             q.push({neigh, dis[neigh]});
+        //         }
+        //     }
+        // }
         
         for(int i = 0; i < N; i++)
         {
