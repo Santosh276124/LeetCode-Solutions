@@ -12,30 +12,40 @@ class Solution
     {
         // Code here
         
-        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>> > pq;
+       set<pair<int,int>> st;
         
         vector<int> dist(V, 1e9);
         
         dist[S] = 0;
-        pq.push({0, S});
+        st.insert({0, S});
         
-        while(!pq.empty())
+        while(!st.empty())
         {
-            auto top = pq.top();
-            pq.pop();
-            
-            int node = top.second;
+            auto top = *(st.begin());
+             int node = top.second;
             int nodeDist = top.first;
+            st.erase(top);
+            
+           
             
             for(auto neigh : adj[node])
             {
+                
                 int neighNode = neigh[0];
                 int neighDist = neigh[1];
                 
+               
+                
                 if(nodeDist + neighDist < dist[neighNode]){
+                    
+                     if(dist[neighNode] != 1e9){ 
+                 
+                            st.erase({dist[neighNode], neighNode});   
+                        }
+                    
                     dist[neighNode] = nodeDist + neighDist;
                     
-                    pq.push({dist[neighNode], neighNode}); 
+                    st.insert({dist[neighNode], neighNode}); 
                 }
                 
             }
