@@ -12,47 +12,56 @@ class Solution {
   public:
     int shortestPath(vector<vector<int>> &grid, pair<int, int> source,
                      pair<int, int> dest) {
+        // code here
         
         int n = grid.size();
         int m = grid[0].size();
         
-        if(source.first == dest.first && source.second == dest.second) return 0;
+        vector<vector<int>> dist(n, vector<int>(m, 1e9));
         
-        vector<vector<int>>dist(n, vector<int>(m, 1e9));  //1,0  -1,0  0,1  0 , -1
+        priority_queue<pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>> > pq;
         
-        int dr[] = {1, -1, 0, 0};
-        int dc[] = {0, 0, 1, -1};
-        
-        queue<pair<int,pair<int,int>>> q;
-        q.push({0, {source.first, source.second}});
         dist[source.first][source.second] = 0;
         
-        while(!q.empty())
+        pq.push({0, {source.first, source.second}});
+        
+        int dx[] = {-1, 0, 1, 0};
+        int dy[] = {0, 1, 0, -1};
+        
+        while(!pq.empty())
         {
-            auto top = q.front();
-            q.pop();
-            int dis = top.first;
-            int r = top.second.first;
-            int c = top.second.second;
+            auto top = pq.top();
+            pq.pop();
             
-            for(int i = 0; i < 4; i++)
-            {
-                int newr = r + dr[i];
-                int newc = c + dc[i];
+            int nodeDist = top.first;
+            int nodeX = top.second.first;
+            int nodeY = top.second.second;
+            
+            if(nodeX == dest.first && nodeY == dest.second)
+                return nodeDist;
                 
-                if(newr >= 0 && newr < n && newc >= 0 && newc < m && grid[newr][newc] == 1 && dis +1 < dist[newr][newc])
+            for(int i = 0; i < 4 ; i++)
+            {
+                int nx = nodeX + dx[i];
+                int ny = nodeY + dy[i];
+                
+                if(nx >= 0 && nx < n && ny >= 0 && ny < m && grid[nx][ny] == 1)
                 {
-                    dist[newr][newc] = 1 + dis;
-                    
-                    if(newr == dest.first && newc == dest.second)
-                       return 1 + dis;
-                       
-                    q.push({1 + dis, {newr, newc}});
+                    if(nodeDist + 1 < dist[nx][ny])
+                    {
+                        dist[nx][ny] = 1 + nodeDist;
+                        
+                        pq.push({dist[nx][ny], {nx, ny}});
+                    }
                 }
             }
             
         }
+        
         return -1;
+        
+        
+        
     }
 };
 
