@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-    vector<string> ans;
+    string ans = "";
     void dfs(TreeNode* root, string temp)
     {
         if(root == NULL)
@@ -23,7 +23,11 @@ public:
             
             reverse(temp.begin(), temp.end());
             
-            ans.push_back(temp);
+            if(ans.length() == 0) ans = temp;
+            else{
+                ans = min(ans, temp);
+            }
+            
             
             return;
         }
@@ -39,19 +43,7 @@ public:
         string temp = "";
         
         dfs(root, temp);
-        
-        string res = ans[0];
-        
-    
-        for(int i = 1; i < ans.size(); i++)
-        {
-            if(ans[i] < res){
-                res = ans[i];
-            }
-           
-        }
-
-        
-        return res;
+      
+        return ans;
     }
 };
