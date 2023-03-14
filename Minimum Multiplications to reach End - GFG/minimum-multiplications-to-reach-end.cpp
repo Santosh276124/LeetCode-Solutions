@@ -18,15 +18,15 @@ class Solution {
         vector<int> dist(100000, 1e9);
         queue<pair<int,int>> q;
         
-        q.push({start, 0});  //node, steps
+        q.push({0,start});  //node, steps
         dist[start] = 0;
         
         while(!q.empty())
         {
             auto front = q.front();
             q.pop();
-            int node = front.first;
-            int steps = front.second;
+            int steps = front.first;
+            int node = front.second;
             
             if(node == end) return steps;
             
@@ -38,7 +38,7 @@ class Solution {
                 {
                     dist[num] = 1 + steps;
                     
-                    q.push({num, 1 + steps});
+                    q.push({1 + steps, num});
                 }
             }
             
