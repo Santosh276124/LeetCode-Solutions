@@ -11,31 +11,31 @@
  */
 class Solution {
 public:
-    // vector<int> path;
+ 
     
-//     int findNum(vector<int> &arr)
-//     {
-//         int num = 0;
+    int findNum(vector<int> &arr)
+    {
+        int num = 0;
         
-//         for(int i = 0; i < arr.size(); i++)
-//         {
-//             num = num * 10 + arr[i];
-//         }
+        for(int i = 0; i < arr.size(); i++)
+        {
+            num = num * 10 + arr[i];
+        }
         
-//         return num;
-//     }
+        return num;
+    }
     
     int ans = 0;
-    void preOrder(TreeNode* root, int num)
+    void preOrder(TreeNode* root, vector<int> path)
     {
         
         if(root == NULL) return;
         
-        num = num*10 + root->val;
+        path.push_back(root->val);
         
         if(root->left == NULL && root->right == NULL){
             
-            ans += num;
+            ans += findNum(path);
      
             
             return;
@@ -43,9 +43,9 @@ public:
         }
   
         
-        preOrder(root->left,num);
+        preOrder(root->left,path);
         
-        preOrder(root->right, num);
+        preOrder(root->right, path);
 
         // path.pop_back();
 
@@ -55,8 +55,8 @@ public:
          
         int num = 0;
     
-        
-        preOrder(root, num);
+        vector<int> path;
+        preOrder(root, path);
         
         return ans;
         
