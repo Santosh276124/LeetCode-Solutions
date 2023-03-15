@@ -1,48 +1,32 @@
 class Solution {
 public:
-    vector<vector<int>> ans;
-    
-    int findSum(vector<int> &temp){
-        int sum = 0;
-        for(auto el : temp)
-            sum += el;
-        
-        return sum;
-    }
-    
-    void solve(int ind, vector<int> &arr, vector<int> &temp, int k, int tar)
+    void solve(int start, int currSum, int tar, int k, vector<int> &temp, vector<vector<int>> &ans)
     {
-        if(ind > arr.size() || temp.size() > k)
-            return;
-        
-        if(temp.size() == k){
-            if(findSum(temp) == tar){
+        if(k == 0){
+            if(currSum == tar)
                 ans.push_back(temp);
-                return;
-            } 
+            
+            return;
         }
         
-        temp.push_back(arr[ind]);
-        solve(ind+1, arr, temp, k, tar);
+        for(int i = start; i <= 9; i++){
+            currSum += i;
+            temp.push_back(i);
+            
+            solve(i+1, currSum, tar, k-1, temp, ans);
+            
+            currSum -= i;
+            temp.pop_back();
+        }
         
-        temp.pop_back();
-        
-        solve(ind+1, arr, temp, k, tar);
-        
-       
         
     }
     vector<vector<int>> combinationSum3(int k, int n) {
         
-        vector<int> arr;
-        for(int i = 1; i <= 9; i++)
-        {
-            arr.push_back(i);
-        }
-        
+        vector<vector<int>> ans;
         vector<int> temp;
         
-        solve(0, arr, temp, k, n);
+        solve(1, 0, n, k, temp, ans);
         
         return ans;
     }
