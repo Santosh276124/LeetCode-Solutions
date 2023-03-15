@@ -10,7 +10,7 @@ public:
         return sum;
     }
     
-    void solve(int ind, vector<int> &arr, vector<int> temp, int k, int tar)
+    void solve(int ind, vector<int> &arr, vector<int> &temp, int k, int tar)
     {
         if(ind > arr.size() || temp.size() > k)
             return;
