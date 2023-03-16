@@ -3,6 +3,49 @@
 using namespace std;
 
 // } Driver Code Ends
+
+class DisjointSet {
+    vector<int> parent, rank;
+public:
+        DisjointSet(int V){
+            rank.resize(V+1);
+            parent.resize(V+1);
+            for(int i = 0; i <= V; i++)
+            {
+                rank[i] = 0;
+                parent[i] = i;
+            }
+        }
+        
+        int findParent(int node){
+            if(node == parent[node])
+                return node;
+                
+            return parent[node] = findParent(parent[node]);
+        }
+        
+        void unionByRank(int u, int v)
+        {
+            int ul_u = findParent(u);
+            int ul_v = findParent(v);
+            
+            if(ul_u == ul_v) 
+                return;
+            
+            if(rank[ul_u] < rank[ul_v])
+            {
+                parent[ul_u] = ul_v;
+            }
+            else if(rank[ul_u] > rank[ul_v]){
+                parent[ul_v] = ul_u;
+            }
+            else{
+                parent[ul_v] = ul_u;
+                rank[ul_u]++;
+            }
+        }
+};
+
 class Solution
 {
 	public:
@@ -10,6 +53,8 @@ class Solution
     int spanningTree(int V, vector<vector<int>> adj[])
     {
         // code here  
+        
+        /*
         priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>> > pq;
         
         vector<int> vis(V, 0);
@@ -43,6 +88,49 @@ class Solution
                 }
             }
         }
+        
+        */
+        
+        
+        //kruskals algo
+        
+        vector<pair<int,pair<int,int>>> adjj;  //wt -> u, v
+        
+        for(int i = 0; i < V; i++)
+        {
+            for(auto it : adj[i])
+            {
+                int u = i;
+                int v = it[0];
+                int wt = it[1];
+                
+                adjj.push_back({wt, {u, v}});
+            }
+        }
+        
+        //step2
+        sort(adjj.begin(), adjj.end());  //acc to wt
+        
+        //step3
+        DisjointSet ds(V);
+        
+        //step4
+        int sum = 0;
+        for(auto neigh : adjj)
+        {
+            int wt = neigh.first;
+            int u = neigh.second.first;
+            int v = neigh.second.second;
+            
+            if(ds.findParent(u) != ds.findParent(v))
+            {
+                sum += wt;
+                
+                ds.unionByRank(u, v);
+            }
+        }
+        
+        
         
         return sum;
     }
