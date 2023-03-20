@@ -1,46 +1,54 @@
 class Solution {
-    bool isPresent(int i, int j, vector<vector<char>>& board, string &word,  vector<vector<bool>>& vis, int ind)
+public:
+    int  n;
+    int m;
+    bool solve(int x, int y, int ind, vector<vector<char>>& board, string word, 
+              vector<vector<int>>& vis, int dx[], int dy[])
     {
-        int n = board.size();
-        int m = board[0].size();
-        //base case
         if(ind == word.length())
             return true;
         
-        if(i < 0 || j < 0|| i >= n || j >= m || vis[i][j] == true || board[i][j] != word[ind]) return false;
+        if(x < 0 || x >= n || y < 0 || y >= m || board[x][y] != word[ind]|| vis[x][y] == 1)
+            return false;
         
-        vis[i][j] = true;
+        vis[x][y] = 1;
         
-    bool down = isPresent(i+1, j, board, word, vis, ind+1);
-    bool up = isPresent(i-1, j, board, word, vis, ind+1);
-    bool right = isPresent(i, j+1, board, word, vis, ind+1);
-    bool left = isPresent(i, j-1, board, word, vis, ind+1);
+        for(int i = 0; i < 4; i++)
+        {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            
+            bool ans = solve(nx, ny, ind+1, board, word , vis, dx, dy);
+            
+            if(ans) return true;
+        }
         
-        vis[i][j] = false;
+        vis[x][y] = 0;
         
-        return (down||up||right||left);
-        
-        
+        return false;
     }
-public:
     bool exist(vector<vector<char>>& board, string word) {
         
-        int n = board.size();
-        int m = board[0].size();
+        n = board.size();
+        m = board[0].size();
         
-        vector<vector<bool>> vis(n, vector<bool>(m, false));
+        vector<vector<int>> vis(n, vector<int>(m, 0));
         
-        for(int i = 0; i < n; i++)
-        {
-            for(int j = 0; j< m; j++)
-            {
-                if(board[i][j] == word[0] && vis[i][j] == false)
-                {
-                    bool ans = isPresent(i, j, board, word, vis, 0);
-                    if(ans) return true;
+        int dx[] = {-1, 0, 1, 0};
+        int dy[]= {0, -1, 0, 1};
+        
+        for(int i = 0; i < n;i++){
+            for(int j = 0; j < m; j++){
+                
+                if(board[i][j] == word[0] && vis[i][j] == 0){
+                    
+                    bool ans = solve(i, j, 0, board, word, vis, dx, dy);
+                    if(ans)
+                        return true;
                 }
             }
         }
+        
         return false;
     }
 };
