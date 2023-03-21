@@ -9,6 +9,7 @@ using namespace std;
 
 class Solution{
 public:
+/*
     bool isSafe(int r, int c, vector<vector<int>>& board, int n){
         int utilr = r;
         int utilc = c;
@@ -46,19 +47,9 @@ public:
         
         return true;
     }
-    void solve(int col, vector<vector<int>>& board, vector<vector<int>>& ans, int n){
+    void solve(int col, vector<vector<int>>& board, vector<vector<int>>& ans, vector<int>& temp, int n){
         
         if(col >= n){
-            
-            vector<int> temp;
-            
-            for(int j = 0; j < n; j++){
-                for(int i = 0; i < n; i++){
-                    if(board[i][j] == 1){
-                        temp.push_back(i+1);
-                    }
-                }
-            }
             
             ans.push_back(temp);
             
@@ -69,11 +60,56 @@ public:
             
             if(isSafe(i, col, board, n)){
                 
+                temp.push_back(i+1);
+                
                 board[i][col] = 1;
                 
-                solve(col+1, board, ans, n);
+                solve(col+1, board, ans, temp, n);
                 
                 board[i][col] = 0;
+                
+                temp.pop_back();
+            }
+        }
+        
+    }
+    
+    */
+    
+      
+    void solve(int col, vector<vector<int>>& board, vector<vector<int>>& ans, vector<int>& temp, int n,
+    vector<int>& rowHash,vector<int>& upperdiaHash, vector<int>& lowerDiaHash ){
+        
+        if(col >= n){
+            
+            ans.push_back(temp);
+            
+            return;
+        }
+        
+        for(int i = 0; i < n; i++){
+            
+            // isSafe(i, col, board, n)
+            
+            if(rowHash[i] == 0 && upperdiaHash[i + col] == 0 && lowerDiaHash[n-1 + col - i] == 0){
+                
+                temp.push_back(i+1);
+                
+                board[i][col] = 1;
+                
+                rowHash[i] = 1;
+                upperdiaHash[i + col] = 1;
+                lowerDiaHash[n-1+col-i] = 1;
+                
+                solve(col+1, board, ans, temp, n, rowHash, upperdiaHash, lowerDiaHash);
+                
+                board[i][col] = 0;
+                
+                rowHash[i] = 0;
+                upperdiaHash[i + col] = 0;
+                lowerDiaHash[n-1+col-i] = 0;
+                
+                temp.pop_back();
             }
         }
         
@@ -83,9 +119,15 @@ public:
         
        vector<vector<int>> ans;
        
+       vector<int> temp;
+       
        vector<vector<int>> board(n, vector<int>(n, 0));
        
-       solve(0, board, ans, n);
+       vector<int> rowHash(n, 0);
+       vector<int> upperdiaHash(2*n-1, 0);
+       vector<int> lowerDiaHash(2*n-1, 0);
+       
+       solve(0, board, ans, temp, n, rowHash, upperdiaHash, lowerDiaHash);
        
        return ans;
         
