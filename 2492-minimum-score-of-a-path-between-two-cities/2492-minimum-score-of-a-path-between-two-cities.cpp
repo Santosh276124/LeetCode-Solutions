@@ -1,5 +1,19 @@
 class Solution {
 public:
+    void dfs(int node, unordered_map<int, list<pair<int,int>> >& adj, vector<int> &vis, int &ans){
+        
+        vis[node] = 1;
+        
+        for(auto neigh : adj[node]){
+            
+            ans = min(ans, neigh.second);
+            
+            if(!vis[neigh.first]){
+          
+                dfs(neigh.first, adj, vis, ans);
+            }
+        }
+    }
     int minScore(int n, vector<vector<int>>& roads) {
         
         unordered_map<int, list<pair<int,int>> > adj;
@@ -13,28 +27,32 @@ public:
             adj[v].push_back({u, d});
         }
         
+        int ans = 1e9;
+        
         vector<int> vis(n+1, 0);
         
-        queue<int> q;
+        dfs(1, adj, vis, ans);
         
-        q.push(1);
-        vis[1] = 1;
-        int ans = 1e9;
-        while(!q.empty()){
-            int node = q.front();
-            q.pop();
+//         queue<int> q;
+        
+//         q.push(1);
+//         vis[1] = 1;
+
+//         while(!q.empty()){
+//             int node = q.front();
+//             q.pop();
             
-            for(auto neigh : adj[node]){
+//             for(auto neigh : adj[node]){
                 
-                ans = min(ans, neigh.second);
+//                 ans = min(ans, neigh.second);
                 
-                if(!vis[neigh.first]){
-                    vis[neigh.first] = 1;
-                    q.push(neigh.first);
-                }
+//                 if(!vis[neigh.first]){
+//                     vis[neigh.first] = 1;
+//                     q.push(neigh.first);
+//                 }
                 
-            }
-        }
+//             }
+//         }
         
         return ans==1e9?-1:ans;
     }
