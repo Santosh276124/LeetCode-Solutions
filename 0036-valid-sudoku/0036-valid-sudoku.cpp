@@ -1,27 +1,34 @@
-class Solution
-{
-    public:
-        bool isValidSudoku(vector<vector < char>> &board)
-        {
-            vector<set < int>> rows(9), cols(9), blocks(9);
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+    
+        int n = board.size();
 
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-
-                    if (board[i][j] == '.') continue;
-
-                    int curr = board[i][j] - '0';
-                    if (rows[i].count(curr) || cols[j].count(curr) || blocks[(i / 3) *3 + j / 3].count(curr))
-                        return false;
-
-                    rows[i].insert(curr);
-                    cols[j].insert(curr);
-                    blocks[(i / 3) *3 + j / 3].insert(curr);
+        for(int i = 0;  i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                
+                if(board[i][j] != '.'){
+                    
+                    char val = board[i][j];
+                    
+                    for(int ind = 0; ind < 9; ind++){
+                        //row check
+                        if(i != ind && board[ind][j] == val) return false;
+                        
+                        //col ceheck
+                        if(j != ind && board[i][ind] == val) return false;
+                        
+                        //box check
+                        if(i != (3 * (i/3) + (ind/3)) && j != (3 * (j/3) + (ind%3)) && 
+                           board[3 * (i/3) + (ind/3)][3 * (j/3) + (ind%3)] == val) return false;
+                    }
+                        
+                        
+                        
+                    }
                 }
             }
-
             return true;
-        }
+  
+    }
 };
