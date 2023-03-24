@@ -32,7 +32,30 @@ public:
         
         int ans = 0;
         
-        dfs(0, adj, vis, ans);
+        // dfs(0, adj, vis, ans);
+        
+        queue<int> q;
+        
+        q.push(0);
+        vis[0] = 1;
+        
+        while(!q.empty()){
+            int front = q.front();
+            q.pop();
+            
+            for(auto neigh : adj[front]){
+                if(!vis[neigh.first]){
+                    
+                    if(neigh.second == 1)
+                        ans++;
+                    
+                    vis[neigh.first] = 1;
+                    
+                    q.push(neigh.first);
+                    
+                }
+            }
+        }
         
         return ans;
         
