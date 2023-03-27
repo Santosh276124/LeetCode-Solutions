@@ -17,11 +17,12 @@ public:
     }
      int solveTab(vector<vector<int>>& grid){
         
-         vector<vector<int>> dp(n+1, vector<int> (m+1, 0));
+         // vector<vector<int>> dp(n+1, vector<int> (m+1, 0));
+         vector<int> prev(m, 0), curr(m, 0);
          
          
          
-         dp[0][0] = grid[0][0];
+         curr[0] = grid[0][0];
          
          for(int i = 0; i < n; i++)
          {
@@ -33,17 +34,18 @@ public:
                  int left = 1e9;
                  
                  if(i-1 >= 0 )
-                     up =  dp[i-1][j];
+                     up =  prev[j];
               
                      
                  if(j-1 >= 0)
-                    left = dp[i][j-1];
+                    left = curr[j-1];
                  
-                 dp[i][j] = grid[i][j] + min(up, left);
+                 curr[j] = grid[i][j] + min(up, left);
              }
+             prev = curr;
          }
          
-         return dp[n-1][m-1];
+         return prev[m-1];
          
     }
     int minPathSum(vector<vector<int>>& grid) {
