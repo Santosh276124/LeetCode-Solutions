@@ -1,26 +1,86 @@
 class Solution {
 public:
-    int longestCycle(vector<int>& edges) {
-         int ans = -1; // Initialize the answer to -1
-    int time = 1; // Initialize the current time step to 1
-    vector<int> timeVisited(edges.size()); // Initialize a vector to store the time at which each node was first visited
-
-    // Iterate through each node in the graph
-    for (int i = 0; i < edges.size(); ++i) {
-      if (timeVisited[i]) // If the node has already been visited, skip it
-        continue;
-      const int startTime = time; // Record the start time of the current traversal
-      int u = i; // Initialize the current node to the ith node
-      // Traverse the graph until the end of the path is reached or a visited node is encountered
-      while (u != -1 && !timeVisited[u]) {
-        timeVisited[u] = time++; // Record the current time step and increment time
-        u = edges[u]; // Move to the next node in the path
-      }
-      // If a cycle is found that includes the current node, update the answer
-      if (u != -1 && timeVisited[u] >= startTime)
-        ans = max(ans, time - timeVisited[u]);
+    int ans = -1;
+    void dfs(int node, vector<int> &adj, vector<int> &vis, vector<int> &dfsVis, vector<int> &count){
+        
+        vis[node] = 1;
+        dfsVis[node] = 1;
+        
+         int neigh = adj[node];
+        
+            if(neigh != -1){
+                if(!vis[neigh]){
+                    count[neigh] = count[node] + 1;
+                    dfs(neigh, adj, vis, dfsVis, count);
+                }
+                else if(dfsVis[neigh]){
+                    //cycle presnt
+                    ans = max(ans, count[node] - count[neigh] + 1);
+                }
+            }
+      
+        
+        dfsVis[node] = 0;
+        
     }
-
-    return ans;
+    int longestCycle(vector<int>& edges) {
+        
+        int n = edges.size();
+        
+        vector<int> vis(n, 0), dfsVis(n, 0), count(n, 1);
+        
+        for(int i = 0 ; i < n; i++){
+            if(!vis[i])
+                dfs(i, edges, vis, dfsVis, count);
+        }
+        
+        return ans;
+        /*
+        unordered_map<int,list<int> > adj;
+        for(int i = 0 ; i < n; i++){
+            int u = i;
+            int v = edges[i];
+            if(v != -1)
+                adj[u].push_back(v);
+        }
+        
+        // step1 cycle detect
+        vector<int> in(n, 0);
+        
+        for(int i = 0; i < n; i++){
+            if(edges[i] != -1)
+                in[edges[i]]++;
+        }
+        
+        vector<int> ans;
+        queue<int> q;
+        
+        for(int i = 0; i < n; i++)
+        {
+            if(in[i] == 0)
+                q.push(i);
+        }
+        
+        while(!q.empty()){
+            int front = q.front();
+            q.pop();
+            // cout<<front<< " ";
+            ans.push_back(front);
+            
+            for(auto neigh : adj[front]){
+                in[neigh]--;
+                if(in[neigh] == 0)
+                    q.push(neigh);
+            }
+        }
+        
+        if(ans.size() == n)
+            return -1;
+        return n - ans.size();
+        */
+        
+        
+        
+        
     }
 };
