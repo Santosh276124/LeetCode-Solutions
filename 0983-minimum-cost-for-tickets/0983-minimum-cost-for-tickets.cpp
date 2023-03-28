@@ -86,6 +86,8 @@ public:
         
         // return solveTab(n, days, costs);
         
+        
+        //space optimised approach  => sc = O(1) TC = O(n)
         int ans = 0;
         queue<pair<int,int>> month;  //pair<days, cost>
         queue<pair<int,int>> week;
