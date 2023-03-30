@@ -40,10 +40,8 @@ public:
         else return false;
     }
     void solve(int o, int c, int n, string temp, vector<string>&ans){
-        if(o == n && c == n){
-            if(isValid(temp)){
-                ans.push_back(temp);
-            }
+        if(o == n && c == n){ 
+            ans.push_back(temp);
             
             return;
         }
@@ -51,7 +49,7 @@ public:
         if(o < n)
             solve(o+1, c, n, temp + '(', ans);
         
-        if(c < n)
+        if(c < o)
             solve(o, c+1, n, temp + ')', ans);
         
     }
