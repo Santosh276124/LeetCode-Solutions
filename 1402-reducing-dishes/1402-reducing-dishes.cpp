@@ -12,14 +12,32 @@ public:
         
         return dp[ind][time] = max(incl, excl);
     }
+    int solveTab(vector<int>& satisfaction){
+        
+        vector<vector<int>> dp(n+1, vector<int> (n+2, 0));
+        
+        for(int ind = n-1; ind >= 0 ; ind--){
+            for(int time = 1; time <= n; time++ ){
+                int incl = satisfaction[ind]*time + dp[ind+1][time+1];
+        
+                int excl = dp[ind+1][time];
+
+                 dp[ind][time] = max(incl, excl);
+            }
+        }
+        
+        return dp[0][1];
+    }
     int maxSatisfaction(vector<int>& satisfaction) {
         
          n = satisfaction.size();
         
         sort(satisfaction.begin(), satisfaction.end());
         
-        vector<vector<int>> dp(n+1, vector<int> (n+1, -1));
+//         vector<vector<int>> dp(n+1, vector<int> (n+1, -1));
         
-        return solve(0, 1, satisfaction, dp);
+        // return solve(0, 1, satisfaction, dp);
+        
+        return solveTab(satisfaction);
     }
 };
