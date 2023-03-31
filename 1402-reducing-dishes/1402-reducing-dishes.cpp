@@ -1,16 +1,25 @@
 class Solution {
 public:
+    int n;
+    int solve(int ind, int time, vector<int>& satisfaction, vector<vector<int>>& dp){
+        if(ind >= n) return 0;
+        
+        if(dp[ind][time] != -1) return dp[ind][time];
+        
+        int incl = satisfaction[ind]*time + solve(ind+1, time+1, satisfaction, dp);
+        
+        int excl = solve(ind+1, time, satisfaction, dp);
+        
+        return dp[ind][time] = max(incl, excl);
+    }
     int maxSatisfaction(vector<int>& satisfaction) {
-        sort(satisfaction.begin(), satisfaction.end(), greater<int>());
-        int n = satisfaction.size();
-        int presum = 0, res = 0;
-        for (int i = 0; i < n; i++) {
-            presum += satisfaction[i];
-            if (presum < 0) {
-                break;
-            }
-            res += presum;
-        }
-        return res;
+        
+         n = satisfaction.size();
+        
+        sort(satisfaction.begin(), satisfaction.end());
+        
+        vector<vector<int>> dp(n+1, vector<int> (n+1, -1));
+        
+        return solve(0, 1, satisfaction, dp);
     }
 };
