@@ -1,61 +1,65 @@
 //{ Driver Code Starts
 //Initial template for C++
 
-#include <bits/stdc++.h>
-using namespace std;
+#include<bits/stdc++.h> 
+using namespace std; 
 
 // } Driver Code Ends
 //User function template for C++
 
-class Solution{
-    int solve(string s1, string s2)
-    {
-        int n = s1.length();
-        vector<int> prev(n+1, 0), curr(n+1, 0);
+class Solution{   
+public:
+     int n;
+     int LPSTab(string &s1, string &s2){
+            
+        vector<vector<int>> dp(n+1 , vector<int>(n+1, 0));
         
-        for(int j = 0; j <= n; j++) prev[j] = 0;
-       
+        for(int i = 0; i <= n; i++)
+            dp[i][0] = 0;
+        for(int j = 0; j <= n; j++)
+            dp[0][j] = 0;
         
-        for(int i = 1; i <= n;i++)
-        {
-            for(int j = 1; j <= n; j++)
-            {
+        for(int i = 1; i <= n; i++){
+            for(int j = 1; j <= n; j++){
                 if(s1[i-1] == s2[j-1])
-                    curr[j] = 1 + prev[j-1];
+                     dp[i][j] = 1 + dp[i-1][j-1];
+                
                 else
-                   curr[j] = max(prev[j], curr[j-1]);
+                     dp[i][j] = max( dp[i-1][j] , dp[i][j-1] );
             }
-            prev = curr;
         }
-        return curr[n];
+        
+        return dp[n][n];
+        
     }
-  public:
-    int countMin(string str){
-    //complete the function here
-       int n = str.length();
-       
-       string s2 = str;
-       reverse(s2.begin(), s2.end());
-       int LCP = solve(str, s2);
-       
-       return n - LCP;
-    
-    
+    int findMinInsertions(string s){
+        // code here 
+        n = s.length();
+        string s1 = s;
+        
+        reverse(s.begin(), s.end());
+
+        
+        int lps = LPSTab(s1, s);
+        
+        return n - lps;
     }
 };
 
 //{ Driver Code Starts.
+
+
+
 int main(){
     int t;
-    cin >> t;
+    cin>>t;
     while(t--){
-        string str;
-        cin >> str;
+        string S;
+        cin>>S;
         Solution ob;
-        cout << ob.countMin(str) << endl;
+        cout<<ob.findMinInsertions(S)<<endl;
     }
-return 0;
+    return 0;
 }
-
 
 // } Driver Code Ends
