@@ -1,13 +1,13 @@
 class Solution {
 public:
-    set<vector<int>> ans;
+    vector<vector<int>> ans;
     void solve(int ind, vector<int> &nums){
         if(ind == nums.size()){
-            ans.insert(nums);
+            ans.push_back(nums);
             return;
         }
         
-        for(int i = 0; i < nums.size(); i++){
+        for(int i = ind; i < nums.size(); i++){
             
             swap(nums[i], nums[ind]);
             
@@ -21,13 +21,13 @@ public:
         
         solve(0, nums);
         
-        vector<vector<int>> res;
+        // vector<vector<int>> res;
         
-        for(auto s : ans){
-            res.push_back(s);
-        }
+        // for(auto s : ans){
+        //     res.push_back(s);
+        // }
         
-        return res;
+        return ans;
         
     }
 };
