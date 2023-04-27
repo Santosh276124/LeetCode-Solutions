@@ -2,22 +2,25 @@ class Solution {
 public:
     vector<vector<int>> generate(int n) {
         
-        vector<vector<int>> ans;
+        vector<vector<int>> ans(n);
         
-        // ans[0].push_back({1});
-        // ans[1].push_back({1, 1});
         
         for(int i = 0; i < n; i++){       
+ 
+            ans[i].resize(i+1);
             
-            vector<int> curr(i+1, 1);
-            
-            // ans.push_back(curr);
-       
-            for(int j = 1; j < i; j++){
-                curr[j] = ans[i-1][j] + ans[i-1][j-1];
+            for(int j = 0; j <= i; j++){
+                
+                if(j == 0 || j == i)
+                    ans[i][j] = 1;
+                
+                else{
+                    ans[i][j] = ans[i-1][j] + ans[i-1][j-1];
+                }
+                
+                
             }
-            
-            ans.push_back(curr);
+  
         }
         
         return ans;
