@@ -5,15 +5,15 @@
  */
 var map = function(arr, fn) {
     
+    const narr = new Array(arr.length);
+    
     for(let i = 0; i < arr.length; i++){
-        arr[i] = fn(arr[i], i);
+        narr[i] = fn(arr[i], i);
     }
     
-      // for(i in arr){
-      //     arr[i] = fn(arr[i], i);
-      // }
+     
     
-    return arr;
+    return narr;
         
 
     
