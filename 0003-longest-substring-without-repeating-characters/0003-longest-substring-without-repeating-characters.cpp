@@ -33,7 +33,7 @@ public:
   
         }
         
-        // maxLen = max(maxLen, i-j);
+        maxLen = max(maxLen, i-j);
         
         return maxLen;
         
