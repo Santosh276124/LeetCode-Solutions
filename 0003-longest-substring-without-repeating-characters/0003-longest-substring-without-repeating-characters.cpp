@@ -4,36 +4,26 @@ public:
         
         int n = s.length();
         
-        int currLen = 0;
+        if(n == 0) return 0;
+        
         int maxLen = 0;
         
-        unordered_map<char,int> mp;
+        unordered_map<char,int> mp;  //char->index
         
         int j = 0;
-        int i = 0;
-        for( ; i < n; i++){
+        
+        for(int i = 0; i < n; i++){
             
-            char ch = s[i];
-            
-            mp[ch]++;
-            
-            currLen = i-j+1;
-            
-            while(currLen > mp.size()){
-                mp[s[j]]--;
-                if(mp[s[j]] == 0)
-                    mp.erase(s[j]);
-                
-                j++;
-                
-                currLen = i-j+1;
+            if(mp.count(s[i])){
+                j = max( j, mp[s[i]] + 1);
             }
             
-            maxLen = max(maxLen, currLen);
+            mp[s[i]] = i;
+            
+            maxLen = max(maxLen, i-j+1);
   
         }
-        
-        maxLen = max(maxLen, i-j);
+       
         
         return maxLen;
         
