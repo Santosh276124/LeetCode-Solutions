@@ -20,55 +20,59 @@ public:
         ListNode* curr1 = l1;
         ListNode* curr2 = l2;
         
-        while( curr1 != NULL && curr2 != NULL )
+        while( curr1 != NULL || curr2 != NULL || carry != 0 )
         {
-            int sum = curr1->val + curr2->val + carry;
+            int sum = (curr1  == NULL ? 0 : curr1->val) + 
+                      (curr2 == NULL ? 0 : curr2->val)  + carry;
+            
             int dg = sum%10;
             
             curr->next = new ListNode(dg);
       
-             carry = sum/10;
+            carry = sum/10;
             
-            curr1 = curr1->next;
-            curr2 = curr2->next;
+            if(curr1 != NULL)
+                curr1 = curr1->next;
+            if(curr2 != NULL)
+                curr2 = curr2->next;
             
             curr = curr->next;
    
         } 
         
-        while(curr1 != NULL){
-            int sum = curr1->val + carry;
-            int dg = sum%10;
+//         while(curr1 != NULL){
+//             int sum = curr1->val + carry;
+//             int dg = sum%10;
             
-            curr->next = new ListNode(dg);
+//             curr->next = new ListNode(dg);
       
-             carry = sum/10;
+//              carry = sum/10;
             
-            curr1 = curr1->next;
+//             curr1 = curr1->next;
             
-            curr = curr->next;
-        }
-        while(curr2 != NULL){
-            int sum = curr2->val + carry;
-            int dg = sum%10;
+//             curr = curr->next;
+//         }
+//         while(curr2 != NULL){
+//             int sum = curr2->val + carry;
+//             int dg = sum%10;
             
-            curr->next = new ListNode(dg);
+//             curr->next = new ListNode(dg);
       
-             carry = sum/10;
+//              carry = sum/10;
             
-            curr2 = curr2->next;
+//             curr2 = curr2->next;
             
-            curr = curr->next;
-        }
+//             curr = curr->next;
+//         }
         
-        while(carry != 0){
+//         while(carry != 0){
             
-            curr->next = new ListNode(carry);
+//             curr->next = new ListNode(carry);
       
-             carry = carry/10;
+//              carry = carry/10;
             
-            curr = curr->next;
-        }
+//             curr = curr->next;
+//         }
         
         return dummy->next;
     }
