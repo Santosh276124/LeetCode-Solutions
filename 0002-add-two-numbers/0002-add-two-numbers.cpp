@@ -10,73 +10,66 @@
  */
 class Solution {
 public:
-    void insertAtTail(ListNode* &tail, int data)
-    {
-        ListNode* temp = new ListNode(data);
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
         
-        tail->next = temp;
-        tail = temp;
-  
-    }
-    ListNode* findSum(ListNode* l1, ListNode* l2)
-    {
         int carry = 0;
         
         ListNode* dummy = new ListNode(-1);
-        ListNode* temp = dummy;
+        ListNode* curr = dummy;
         
         ListNode* curr1 = l1;
         ListNode* curr2 = l2;
         
-        while(curr1 != NULL || curr2 != NULL || carry != 0)
+        while( curr1 != NULL && curr2 != NULL )
         {
-            int sum = 0;
+            int sum = curr1->val + curr2->val + carry;
+            int dg = sum%10;
             
-            if(curr1 != NULL){
-                sum += curr1->val;
-                curr1 = curr1->next;
-            }
-            if(curr2 != NULL){
-                sum += curr2->val;
-                curr2 = curr2->next;
-            }
+            curr->next = new ListNode(dg);
+      
+             carry = sum/10;
             
-            sum += carry;
+            curr1 = curr1->next;
+            curr2 = curr2->next;
             
-            int digit = sum%10;
+            curr = curr->next;
+   
+        } 
+        
+        while(curr1 != NULL){
+            int sum = curr1->val + carry;
+            int dg = sum%10;
             
-            carry = sum/10;
+            curr->next = new ListNode(dg);
+      
+             carry = sum/10;
             
-            insertAtTail(temp, digit);
-             
+            curr1 = curr1->next;
+            
+            curr = curr->next;
+        }
+        while(curr2 != NULL){
+            int sum = curr2->val + carry;
+            int dg = sum%10;
+            
+            curr->next = new ListNode(dg);
+      
+             carry = sum/10;
+            
+            curr2 = curr2->next;
+            
+            curr = curr->next;
+        }
+        
+        while(carry != 0){
+            
+            curr->next = new ListNode(carry);
+      
+             carry = carry/10;
+            
+            curr = curr->next;
         }
         
         return dummy->next;
-    }
-    ListNode* reverse(ListNode* head)
-    {
-        if(head == NULL || head->next == NULL)
-            return head;
-        
-        ListNode* curr = head;
-        ListNode* prev = NULL;
-        while(curr != NULL)
-        {
-            ListNode* fr = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = fr;
-        }
-        
-        return prev;
-    }
-    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-
-        
-        ListNode* ans = findSum(l1, l2);
-        
-        
-        return ans;
-        
     }
 };
