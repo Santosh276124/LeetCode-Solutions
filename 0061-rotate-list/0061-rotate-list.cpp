@@ -12,47 +12,40 @@ class Solution {
 public:
     ListNode* rotateRight(ListNode* head, int k) {
         
-     
-        if(head == NULL || k == 0) return head;
+        if(head == NULL || head->next == NULL) return head;
         
-//         step1 find length
-        int len = 0;
-        
-        ListNode* curr = head, *prev = head;
-        while(curr != NULL)
-        {
-            len++;
-            prev = curr;
+        int n = 0;
+        ListNode* curr = head;
+        while(curr != NULL){
+            n++;
             curr = curr->next;
         }
         
-        if(len == k) return head;
+        if(n == k || k == 0 || k%n == 0) return head;
         
-        // step2
-        if(k > len )
-            k = k%len;
+        k = k%n;  //if k > n
         
+        k = n-k; //to move pointer
+        k--;
         
-        curr = head;
-        
-        // step3
-        //make it circular
-        prev->next = head;
-        
-        
-//         step4 iterate for n
-        int n = len-k;
-        
-        while(n-- > 1)
-        {
-            curr = curr->next;
+        ListNode* temp = head;
+    
+        while(k--){
+            temp = temp->next;
         }
         
-//         step5
-        head = curr->next;
-        curr->next = NULL;
+        ListNode* nhead = temp->next;
         
-        return head;
+        temp->next = NULL;
+        
+        curr = nhead;
+        while(curr->next != NULL)
+            curr = curr->next;
+        
+        curr->next = head;
+        
+        return nhead;
+        
         
         
     }
