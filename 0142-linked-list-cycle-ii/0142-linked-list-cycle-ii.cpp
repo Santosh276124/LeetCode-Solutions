@@ -8,41 +8,43 @@
  */
 class Solution {
 public:
-    ListNode* checkCycle(ListNode* head)
-    {
-        if(head == NULL || head->next == NULL) return NULL;
+     ListNode* hasCycle(ListNode *head) {
         
-        ListNode* slow = head;
-        ListNode* fast = head;
+        if(head == NULL) return NULL;
         
-        while(slow != NULL && fast != NULL)
-        {
-            fast = fast->next;
-            if(fast != NULL)
-                fast = fast->next;
-            slow = slow->next;
+      ListNode* s = head;
+        ListNode* f = head;
+        
+        while(f != NULL && f->next != NULL){
+            s = s->next;
+            f = f->next;
+            if(f != NULL)
+                f = f->next;
             
-            if(slow == fast)
-                return slow;
+            if(s == f)
+                return s;
         }
+        
         return NULL;
+        
     }
     ListNode *detectCycle(ListNode *head) {
         
-        if(head == NULL || head->next == NULL) return NULL;
+        ListNode* cycle = hasCycle(head);
         
-        ListNode* intersection = checkCycle(head);
+        // cout<<cycle->val<<" ";
         
-        if(intersection == NULL) return NULL;
+        if(cycle == NULL) return NULL;
         
-        ListNode* slow = head;
-        while(slow != intersection)
-        {
-            slow = slow ->next;
-            intersection = intersection->next;
+        ListNode* f = cycle;
+        ListNode* s = head;
+        
+        while(f != s){
+            s = s->next;
+            f = f->next;
         }
         
-        return slow;
+        return s;
         
     }
 };
