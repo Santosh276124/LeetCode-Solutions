@@ -111,57 +111,50 @@ struct Node{
 
 /*  Function which returns the  root of 
     the flattened linked list. */
-Node* merge(Node* l1, Node* l2)
-{
-    Node* dummy = new Node(0);
+Node* merge(Node* head1, Node* head2){
+    Node* curr1 = head1;
+    Node* curr2 = head2;
+    Node* dummy = new Node(-1);
+    Node* curr = dummy;
     
-    Node* curr = dummy, *curr1 = l1, *curr2 = l2;
-    
-    while(curr1 != NULL && curr2 != NULL)
-    {
-        if(curr1->data <= curr2->data)
-        {
+    while(curr1 != NULL && curr2 != NULL){
+        if(curr1->data <= curr2->data){
             curr->bottom = curr1;
-            curr = curr1;
             curr1 = curr1->bottom;
         }
         else{
             curr->bottom = curr2;
-            curr = curr2;
             curr2 = curr2->bottom;
         }
+        
+        curr = curr->bottom;
     }
     
-    while(curr1 != NULL)
-    {
+    while(curr1 != NULL){
         curr->bottom = curr1;
-        curr = curr1;
         curr1 = curr1->bottom;
+        curr = curr->bottom;
     }
     
-    while(curr2 != NULL)
-    {
+    while(curr2 != NULL){
         curr->bottom = curr2;
-        curr = curr2;
         curr2 = curr2->bottom;
+        curr = curr->bottom;
     }
     
     return dummy->bottom;
-    
 }
 Node *flatten(Node *root)
 {
-   // Your code here
+    
+    if(root == NULL || root->next == NULL) return root;
    
-   if(root == NULL || root->next == NULL)
-        return root;
-        
     root->next = flatten(root->next);
     
     root = merge(root, root->next);
     
     return root;
    
-   
+    
 }
 
