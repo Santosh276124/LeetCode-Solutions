@@ -3,36 +3,43 @@ public:
     vector<vector<int>> threeSum(vector<int>& nums) {
         
         int n = nums.size();
-        vector<vector<int>> ans;
-        
-        unordered_map<int,int> m;   //sum, index
         
         sort(nums.begin(), nums.end());
         
-        if(nums[0] > 0) return {};
+        set<vector<int>> st;
         
-        for(int i = 0; i < n; i++)
-            m[nums[i]] = i;
-        
-        
-        for(int i = 0; i < n; i++)
-        {
-            if(i > 0 && nums[i] == nums[i-1]) continue;  //for duplicates
+        for(int i = 0; i < n; i++){
+            int tar = 0-nums[i];
             
-            if(nums[i] > 0) return ans;
+            int s = i+1;
+            int e = n-1;
             
-            for(int j = i+1; j < n; j++)
-            {
-                if(j != i+1 && nums[j] == nums[j-1]) continue;
-                
-                int sum = -(nums[i] + nums[j]);
-                
-                if(m.count(sum) && m[sum] > j)
-                    ans.push_back({nums[i], nums[j], sum});
-                
+            while(s < e){
+                long long sum = nums[s] + nums[e];
+                if(sum == tar)
+                {
+                    vector<int> temp = {nums[i], nums[s], nums[e]};
+                    // sort(temp.begin(), temp.end());
+                    st.insert(temp);
+                    s++;
+                    e--;
+                }
+                else if(sum < tar)
+                    s++;
+                else
+                    e--;
+                    
             }
+            
+            
         }
         
+        vector<vector<int>> ans;
+        
+        for(auto s : st)
+            ans.push_back(s);
+        
         return ans;
+        
     }
 };
