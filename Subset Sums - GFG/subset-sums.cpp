@@ -5,29 +5,31 @@ using namespace std;
 // } Driver Code Ends
 class Solution
 {
-    void solve(int ind, vector<int> &nums, vector<int>& ans, int sum)
-    {
-        if(ind == nums.size())
+public:
+    void solve(int ind, int  curr, vector<int> &arr, int n, vector<int>& ans){
+        
+        if(ind >= n)
         {
-            ans.push_back(sum);
-            sum = 0;
+            ans.push_back(curr);
             return;
         }
+            
         
-        solve(ind+1, nums, ans, sum);
         
-        solve(ind+1, nums, ans, sum+nums[ind]);
+        solve(ind+1, curr+arr[ind], arr, n, ans);
+        
+        solve(ind+1, curr, arr, n, ans);
+        
+        
     }
-public:
     vector<int> subsetSums(vector<int> arr, int N)
     {
         // Write Your Code here
-        
         vector<int> ans;
-       
-       solve(0, arr, ans, 0);
-       return ans;
         
+        solve(0, 0, arr, N, ans);
+        
+        return ans;
     }
 };
 
