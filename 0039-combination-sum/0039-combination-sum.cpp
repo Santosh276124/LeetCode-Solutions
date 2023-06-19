@@ -1,6 +1,6 @@
 class Solution {
 public:
-    void solve(int ind, vector<int>&nums, vector<int>& temp,vector<vector<int>>& ans, int tar ){
+    void solve(int ind, vector<int>&nums, vector<int> temp,vector<vector<int>>& ans, int tar ){
         if(tar == 0){
             ans.push_back(temp);
             return;
@@ -23,7 +23,7 @@ public:
 
         }
         
-        temp.pop_back();
+        // temp.pop_back();
         
     }
     vector<vector<int>> combinationSum(vector<int>& nums, int tar) {
