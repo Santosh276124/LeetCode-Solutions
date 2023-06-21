@@ -10,71 +10,78 @@ using namespace std;
 
 class Solution{
     public:
-    void solve(int row, int col, vector<vector<int>> &board, vector<vector<int>> &vis
-    , int n, string &path, vector<string> &ans){
+    
+    
+    bool isValid(int i, int j, int n, vector<vector<int>> &mat){
+        if(i < 0 || i >= n || j < 0 || j >= n || mat[i][j] == 0)
+            return false;
+            
+        return true;
+    }
+    
+    void solve(int i, int j, vector<vector<int>> &mat, int n, string &temp,
+    vector<string> &ans, vector<vector<int>> &vis){
         
-        if(row < 0 || row >= n || col < 0 || col >= n || board[row][col] == 0 || vis[row][col] == 1){
+        if(i == n-1 && j == n-1){
+            ans.push_back(temp);
             return;
         }
         
-        if(row == n-1 && col == n-1){
-            ans.push_back(path);
-            
-            return;
+        vis[i][j] = 1;
+        
+        //Down
+        if(isValid(i+1, j, n, mat) && !vis[i+1][j]){
+  
+        temp += "D";
+        solve(i+1, j, mat, n, temp, ans, vis);
+        temp.pop_back();
+        
+        }
+        
+        //right
+        
+        if(isValid(i, j+1, n, mat) && !vis[i][j+1]){
+        temp += "R";
+        solve(i, j+1, mat, n, temp, ans, vis);
+        temp.pop_back();
         }
         
         
         //up
-        path += 'U';
-        vis[row][col] = 1;
-        solve(row-1, col, board, vis, n, path, ans);
-        path.pop_back();
+        if(isValid(i-1, j, n, mat) && !vis[i-1][j]){
         
+        temp += "U";
+        solve(i-1, j, mat, n, temp, ans, vis);
+        temp.pop_back();
+        }
         
-        
-        //down
-        path += 'D';
-        vis[row][col] = 1;
-        solve(row+1, col, board, vis, n, path, ans);
-        path.pop_back();
         
         //left
-        path += 'L';
-        vis[row][col] = 1;
-        solve(row, col-1, board, vis, n, path, ans);
-        path.pop_back();
+        if(isValid(i, j-1, n, mat) && !vis[i][j-1]){
+        temp += "L";
+        solve(i, j-1, mat, n, temp, ans, vis);
+        temp.pop_back();
         
-        //right
-        path += 'R';
-        vis[row][col] = 1;
-        solve(row, col+1, board, vis, n, path, ans);
-        path.pop_back();
+        }
         
-        vis[row][col] = 0;
-        
-        
-        
-        
-        
-        
+        vis[i][j] = 0;
         
     }
-    vector<string> findPath(vector<vector<int>> &board, int n) {
+    vector<string> findPath(vector<vector<int>> &mat, int n) {
         
-        if(board[0][0] == 0) return {"-1"};
-        
-        
-        vector<vector<int>> vis(n, vector<int>(n, 0));
-        
-        string path = "";
+        if(mat[0][0] != 1)
+            return {"-1"};
         
         vector<string> ans;
         
-        solve(0, 0, board, vis, n, path, ans);
+        vector<vector<int>> vis(n, vector<int>(n, 0));
+         
+        string temp = "";
         
+        solve(0,0, mat, n, temp, ans, vis);
+                    
+           
         return ans;
-        
-        
     }
 };
 
