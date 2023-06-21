@@ -1,49 +1,45 @@
 class Solution {
 public:
-    vector<vector<string>> ans;
-    int n;
-    bool isPalndrome(string &s){
-        int i = 0;
-        int j = s.length()-1;
-        while(i <  j){
-            if(s[i] != s[j])
-                return false;
-            
-            i++;
-            j--;
-        }
-        return true;
-    }
-    void solve(int ind, string &s, vector<string> temp){
+    void solve(int ind, string s, vector<string> temp, vector<vector<string>> &ans){
         
-        if(ind >= n){
+        if(ind >= s.length()){
             ans.push_back(temp);
             return;
         }
         
-        for(int i = ind; i < n; i++){
+        for(int i = ind; i < s.length(); i++){
             
             string part = s.substr(ind, i-ind+1);
-
             
-            if(isPalndrome(part)){
-                
+            if(isValid(part)){
                 temp.push_back(part);
-                
-                solve(i+1, s, temp);
-                
+                solve(i+1, s, temp, ans);
                 temp.pop_back();
             }
-          
-            
         }
+        
+    }
+    bool isValid(string &s){
+        if(s.length() == 0)
+            return false;
+        int l = 0;
+        int h = s.length()-1;
+        while(l <= h){
+            if(s[l] != s[h])
+                return false;
+            
+            l++;
+            h--;
+        }
+        
+        return true;
     }
     vector<vector<string>> partition(string s) {
         
-        n = s.length();
-        vector<string> temp;
+        vector<vector<string>> ans;
+        vector<string> temp ;
         
-        solve(0, s, temp);
+        solve(0, s, temp, ans);
         
         return ans;
         
