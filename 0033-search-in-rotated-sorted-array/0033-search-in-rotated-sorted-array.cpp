@@ -3,31 +3,29 @@ public:
     int search(vector<int>& nums, int target) {
         
         int n = nums.size();
+        vector<pair<int,int>> arr;
         
-        int s = 0, e = n-1;
+        for(int i =0; i <n; i++)
+            arr.push_back({nums[i], i});
         
-        while(s <= e)
-        {
-            int mid = s+(e-s)/2;
+        sort(arr.begin(), arr.end());
+        
+        int l = 0;
+        int h = n-1;
+        
+        while(l <= h){
+            int m = l + (h-l)/2;
             
-            if(nums[mid] == target) return mid;
+            if(arr[m].first == target)
+                return arr[m].second;
             
-            else if(nums[s] <= nums[mid])
-            {
-                if(target >= nums[s] && target <= nums[mid])
-                    e = mid-1;
-                else 
-                    s = mid+1;
-            }
+            else if(arr[m].first > target)
+                h = m-1;
             else
-            {
-                if(target >= nums[mid] && target <= nums[e])
-                    s = mid+1;
-                else
-                    e = mid-1;
-            }
+                l = m+1;
         }
         
         return -1;
+        
     }
 };
