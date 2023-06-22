@@ -3,19 +3,21 @@ public:
     int singleNonDuplicate(vector<int>& nums) {
         
         int n = nums.size();
-        int s = 0;
-        int e = n-2;
-        while(s <= e)
-        {
-            int mid = s+(e-s)/2;
-            
-            if(nums[mid] == nums[mid^1])
-                s = mid+1;
-            else
-                e = mid-1;
-        }
         
-        return nums[s];
+        int l = 0;
+        int h = n-1;
+        
+//         while(l < h){
+//             int m = l + (h-l)/2;
+            
+//             if(nums[m] != nums[m+1] )
+//         }
+        
+        int xr  = 0;
+        for(auto el : nums)
+            xr ^= el;
+        
+        return xr;
         
     }
 };
