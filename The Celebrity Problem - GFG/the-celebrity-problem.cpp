@@ -10,48 +10,41 @@ using namespace std;
 class Solution 
 {
     public:
+    bool knows(int a, int b, vector<vector<int> >& M){
+        return M[a][b];
+    }
     //Function to find if there is a celebrity in the party or not.
     int celebrity(vector<vector<int> >& M, int n) 
     {
         // code here 
-        vector<int> row_with_all_0;
+        
+        stack<int> st;
+        
+        for(int i = 0; i < n; i++)
+            st.push(i);
+            
+        while(st.size() > 1){
+            int a = st.top();
+            st.pop();
+            int b = st.top();
+            st.pop();
+            
+            if(knows(a, b, M))
+                st.push(b);
+            else
+                st.push(a);
+        }
+        
+        int possible_cand = st.top();
         
         for(int i = 0; i < n; i++){
-            auto vec = M[i];
             
-            if(accumulate(vec.begin(), vec.end(), 0) == 0)
-                row_with_all_0.push_back(i);
-            
-        }
-        
-        int ans = -1;
-        
-        for(int i = 0; i < row_with_all_0.size(); i++){
-            
-            int per = row_with_all_0[i];
-            
-            bool fl = false;
-            
-            for(int j = 0; j  < n; j++){
-                
-                if(j != per){
-                    if(M[j][per] != 1){
-                        fl = true;
-                        break;
-                    }
-                        
-                }
-                
-            }
-            
-            if(fl == false)
-                ans = per;
+            if(i != possible_cand && (knows(possible_cand, i, M) || !knows(i, possible_cand, M) ))
+                return -1;
             
         }
         
-        
-        return ans;
-        
+        return possible_cand;
     }
 };
 
