@@ -4,24 +4,22 @@ public:
         
         string ans = "";
         
-        for(int i = 0; i < s[0].length(); i++){
+        int n = s.size();
+        
+        sort(s.begin(), s.end());
+        
+        string f = s[0];
+        string l  = s[n-1];
+        
+        int i = 0;
+        while(i < f.length()){
             
-            char ch = s[0][i];
-            bool fl = true;
-            
-            
-            for(int j = 1; j < s.size(); j++){
-                
-                if(ch != s[j][i]){
-                    fl = false;
-                    break;
-                }
-                
+            if(f[i] == l[i]){
+                ans += f[i];
             }
-            
-            if(fl) ans += ch;
             else break;
             
+            i++;
         }
         
         return ans;
