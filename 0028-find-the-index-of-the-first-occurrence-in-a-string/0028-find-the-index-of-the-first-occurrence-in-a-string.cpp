@@ -1,16 +1,60 @@
 class Solution {
 public:
-    int strStr(string h, string s) {
+    int strStr(string haystack , string pattern){
         
-        int n = h.length();
-        int m = s.length();
+        int n = haystack.length();
+        int m = pattern.length();
         
-        for(int i = 0; i < n; i++){
+        vector<int> lps(m, 0);
+        
+        int i =1;
+        int prevLPS = 0;
+        
+        while(i < m){
             
-            if(s == h.substr(i, m))
-                return i;
+            if(pattern[i] == pattern[prevLPS]){
+                lps[i] = prevLPS + 1;
+                prevLPS++;
+                i++;
+            }
+            else{
+                if(prevLPS == 0){
+                    lps[i] = 0;
+                    i++;
+                }
+                else{
+                    prevLPS = lps[prevLPS - 1];
+                }
+            }
             
         }
+        
+        
+        i = 0;
+        int j = 0;
+        
+        while(i < n){
+            
+            if(haystack[i] == pattern[j]){
+                i++;
+                j++;
+            }
+            else{
+                
+                if(j == 0){
+                    i++;
+                }
+                else{
+                    j = lps[j-1];
+                }
+            }
+            
+            if(j == m){
+                return i - m;
+            }
+            
+        }
+        
         
         return -1;
         
