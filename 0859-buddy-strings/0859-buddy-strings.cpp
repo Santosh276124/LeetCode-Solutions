@@ -2,28 +2,39 @@ class Solution {
 public:
     bool buddyStrings(string s, string goal) {
         
-        if(s.length() != goal.length()) return false;
-       
-        if(s == goal)
-        {
-             set<char> st(s.begin(), s.end());
+        int n = s.length();
+        int m = goal.length();
+        
+        //case1 
+        if(s == goal){
             
-            if(s.length() - st.size() >= 1) return true;
+            vector<int> hash(26,0);
+            for(int i = 0; i < n; i++){
+                hash[s[i]-'a']++;
+                if(hash[s[i]-'a'] > 1)
+                    return true;
+            }
+            
+            return false;
+            
         }
         
-       vector<int> diff;
-        for(int i = 0; i < s.length(); i++)
-        {
-            if(s[i] != goal[i])
-               diff.push_back(i);
-            
-            if(diff.size() > 2) return false;
-        }
+        //case2  s != goal
+        int l = 0;
+        int r = n-1;
+        while(l < n && s[l] == goal[l])
+            l++;
+        while(r >= 0 && s[r] == goal[r])
+            r--;
         
-        if(diff.size() == 2 && s[diff[0]] == goal[diff[1]] && s[diff[1]] == goal[diff[0]])
-            return true;
-        return false;
+        if(l < r)
+            swap(s[l], s[r]);
         
+        
+        
+        
+        
+        return s == goal;
         
     }
 };
