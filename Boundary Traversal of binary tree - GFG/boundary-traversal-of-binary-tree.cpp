@@ -105,65 +105,92 @@ struct Node
 
 class Solution {
 public:
-    void leftBoundary(Node* root, vector<int> &ans)
-    {
-        Node* curr = root->left;
+    void findLeft(Node* root, vector<int>& ans){
         
-        while(curr)
-        {
-            if(curr && !(!curr->left && !curr->right))
-                ans.push_back(curr->data);
+        Node* curr = root;
+        while(curr){
+            
+            if(curr->left == NULL && curr->right == NULL)
+                break;
                 
-            if(curr->left) curr = curr->left;
-            else curr = curr->right;
+            // cout<<curr->data<<" ";
+            ans.push_back(curr->data);
+            
+            if(curr->left)
+                curr = curr->left;
+            else if(curr->right)
+                curr = curr->right;
+            
         }
+        
     }
-    
-    void leafNodes(Node* root, vector<int> &ans)
-    {
+    void findLeaf(Node* root, vector<int> &ans){
+        
         if(root == NULL) return;
         
-        if(!root->left && !root->right){
+        if(root->left == NULL && root->right == NULL){
+            // cout<<root->data<<" ";
             ans.push_back(root->data);
             return;
-        } 
-        
-        leafNodes(root->left, ans);
-        leafNodes(root->right, ans);
-    }
-    
-    void rightBoundary(Node* root, vector<int> &ans)
-    {
-        Node* curr = root->right;
-        vector<int> temp;
-        while(curr)
-        {
-            if(curr && !(!curr->left && !curr->right))
-                temp.push_back(curr->data);
-            
-            if(curr->right) curr = curr->right;
-            else curr = curr->left;
-   
         }
         
-        reverse(temp.begin(), temp.end());
-        for(auto el : temp)
-          ans.push_back(el);
+        findLeaf(root->left, ans);
+        findLeaf(root->right, ans);
+        
+    }
+    void findRight(Node* root, vector<int>& ans){
+        
+        Node* curr = root;
+        vector<int> temp;
+        while(curr != NULL){
+            
+            if(curr->left == NULL && curr->right == NULL)
+                break;
+                
+            // cout<<curr->data<<" ";
+            temp.push_back(curr->data);
+            
+            if(curr->right)
+                curr = curr->right;
+            else if(curr->left)
+                curr = curr->left;
+            
+        }
+        
+        if(temp.size() > 0){
+            reverse(temp.begin(), temp.end());
+            for(int i = 0; i < temp.size(); i++){
+                ans.push_back(temp[i]);
+            }
+        }
+        
+        
+        
     }
     vector <int> boundary(Node *root)
     {
         //Your code here
+        
         vector<int> ans;
-        if(!root) return ans;
         
-        if(!(!root->left && !root->right))
-            ans.push_back(root->data);
-            
-        leftBoundary(root, ans);
+        if(root == NULL) return ans;
         
-        leafNodes(root, ans);
+        ans.push_back(root->data);
         
-        rightBoundary(root, ans);
+        //left traversal
+        findLeft(root->left, ans);
+        
+        //leaf nodes
+        findLeaf(root->left, ans);
+        findLeaf(root->right, ans);
+        
+        //right traversal
+        findRight(root->right, ans);
+        
+        
+        // for(int i =0; i < ans.size(); i++)
+        //     cout<<ans[i]<<" ";
+        
         
         return ans;
     }
