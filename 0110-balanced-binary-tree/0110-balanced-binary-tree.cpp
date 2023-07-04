@@ -11,11 +11,14 @@
  */
 class Solution {
 public:
+    bool ans = true;
     int height(TreeNode* root){
         if(root == NULL) return 0;
         
         int lh = height(root->left);
         int rh = height(root->right);
+        
+        ans = (ans && abs(lh-rh) <= 1);
         
         return 1 + max(lh, rh);
     }
@@ -23,12 +26,9 @@ public:
         
         if(root == NULL) return true;
         
-        bool l = isBalanced(root->left);
-        bool r = isBalanced(root->right);
+        height(root);
         
-        bool val = abs( height(root->left)-height(root->right) ) <= 1; 
-        
-        return l && r && val;
+        return ans;
             
     }
 };
