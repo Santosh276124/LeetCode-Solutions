@@ -97,42 +97,41 @@ class Solution {
   public:
     vector <int> bottomView(Node *root) {
         // Your Code Here
-        vector<int> ans;
-        if(root == NULL) return ans;
-        
+         map<int,int> mp;
         
         queue<pair<Node*, int>> q;
-        
-        map<int,vector<int> > mp;
-        
         q.push({root, 0});
         
-        while(!q.empty())
-        {
-            int len = q.size();
+        while(!q.empty()){
             
-            for(int i = 0; i < len; i++)
-            {
+            int size = q.size();
+            for(int i = 0; i < size; i++){
+                
                 auto front = q.front();
                 q.pop();
                 
-                Node* node = front.first;
+                Node* node= front.first;
                 int hd = front.second;
-                
-                
-                mp[hd].push_back(node->data);
                 
                 if(node->left) q.push({node->left, hd-1});
                 if(node->right) q.push({node->right, hd+1});
+                
+                
+                // if(!mp.count(hd))
+                    mp[hd] = node->data;
+                
             }
+            
         }
         
-        for(auto m : mp)
-        {
-            auto arr = m.second;
-            reverse(arr.begin(), arr.end());
+        
+        vector<int> ans;
+        
+        for(auto i : mp){
             
-            ans.push_back(arr[0]);
+            // cout<<i.second<<"->";
+            ans.push_back(i.second);
+          
         }
         
         return ans;
