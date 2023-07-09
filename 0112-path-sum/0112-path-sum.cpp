@@ -25,7 +25,7 @@ public:
         bool l = solve(root->left, targetSum);
         bool r = solve(root->right, targetSum);
         
-        targetSum += root->val;
+        // targetSum += root->val;
         
         return l||r;
         
