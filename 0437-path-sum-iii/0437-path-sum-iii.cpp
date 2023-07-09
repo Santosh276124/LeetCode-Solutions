@@ -11,25 +11,26 @@
  */
 class Solution {
 public:
-   
-    void solve(TreeNode* root, int &tar, vector<int> path, int &ans){
+   unordered_map<long long int,int> mp;
+    void solve(TreeNode* root, int &tar, long long int currSum, int &ans){
         
         if(root == NULL) return;
         
-        path.push_back(root->val);
-        // cout<<root->val<<" ";
-        long long int curr = 0;
-        for(int i = path.size()-1; i >= 0; i--){
-            curr += path[i];
-            if(curr == tar)
-                ans++;
-          
-        }
+        // path.push_back(root->val);
+        currSum += root->val;
+        if(currSum == tar)
+            ans++;
         
-        solve(root->left, tar, path, ans);
-        solve(root->right, tar, path, ans);
+        if(mp.count(currSum - tar))
+            ans += mp[currSum-tar];
         
+        mp[currSum]++;
+
         
+        solve(root->left, tar, currSum, ans);
+        solve(root->right, tar, currSum, ans);
+        
+        mp[currSum]--;
         
         // path.pop_back();
         
@@ -39,9 +40,9 @@ public:
         if(root == NULL) return 0;
         
         int ans = 0;
-        vector<int> path;
-        
-        solve(root, targetSum, path, ans);
+        // vector<int> path;
+        long long int curr = 0;
+        solve(root, targetSum, curr, ans);
 
         return ans;
     }
