@@ -24,18 +24,16 @@ public:
         
         int r = solve(root->right);
         
-        //case1
         int curve_pathSum = l + r + root->val;
         
-        //case2
         int root_itself = root->val;
         
-        //case3
         int koi_ek = max(l, r)+root->val;
         
         ans = max({ans, curve_pathSum, root_itself, koi_ek});
         
-        return max(root_itself, koi_ek);
+        return max(root_itself, max(l, r)+root->val );
+   
         
     }
     int maxPathSum(TreeNode* root) {
