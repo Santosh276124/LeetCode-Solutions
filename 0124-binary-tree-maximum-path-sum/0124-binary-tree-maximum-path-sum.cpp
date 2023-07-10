@@ -11,34 +11,44 @@
  */
 class Solution {
 public:
-    int maxSum = INT_MIN;
-    int solve(TreeNode* root)
-    {
-        if(!root) return 0;
+    int ans = -1e9;
+    int solve(TreeNode* root){
+        
+        if(root == NULL)
+            return 0;
+        
+        // if(root->left == NULL && root->right == NULL)
+        //     return root->val;
         
         int l = solve(root->left);
+        
         int r = solve(root->right);
         
-        // case1
-        int neeche_hi_answer_mil_gya = l+r+root->val;
+        //case1
+        int curve_pathSum = l + r + root->val;
         
-//         case2
-        int dono_me_se_koi_ek_acha = max(l, r) + root->val;
+        //case2
+        int root_itself = root->val;
         
-//         case3
-        int sirf_root_acha_hai = root->val;
+        //case3
+        int koi_ek = max(l, r)+root->val;
         
-        maxSum = max({maxSum, neeche_hi_answer_mil_gya, dono_me_se_koi_ek_acha, 
-                     sirf_root_acha_hai});
+        ans = max({ans, curve_pathSum, root_itself, koi_ek});
         
-//         case 1 ko return nhi kr sakte bc wo path complete hai aage nhi extend kr sakte
-        return max(dono_me_se_koi_ek_acha, sirf_root_acha_hai);
+        return max(root_itself, koi_ek);
         
     }
     int maxPathSum(TreeNode* root) {
         
-        solve(root);
-        return maxSum;
+        if(root == NULL)
+            return 0;
+        
+        if(root->left == NULL && root->right == NULL)
+            return root->val;
+        
+        int  val = solve(root);
+        
+        return ans;
         
     }
 };
