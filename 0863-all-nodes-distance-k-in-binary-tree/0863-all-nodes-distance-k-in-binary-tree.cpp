@@ -9,86 +9,77 @@
  */
 class Solution {
 public:
-    void findParent(TreeNode* root, unordered_map<TreeNode*, TreeNode*>& parent)
+    void dfs(TreeNode* root, TreeNode* par,unordered_map<TreeNode*, TreeNode*> &back_edge )
     {
-        queue<TreeNode*> q;
-        q.push(root);
-        while(!q.empty())
-        {
-            int len = q.size();
-            for(int i = 0; i < len; i++)
-            {
-                auto front = q.front();
-                q.pop();
-                
-                if(front->left){
-                    parent[front->left] = front;
-                    q.push(front->left);
-                }
-                if(front->right){
-                    parent[front->right] = front;
-                    q.push(front->right);
-                }
-            }
-        }
+        
+        if(root == NULL) return;
+        
+        back_edge[root] = par;
+        
+        dfs(root->left, root, back_edge);
+        dfs(root->right, root, back_edge);
+        
     }
-    vector<int> distanceK(TreeNode* root, TreeNode* tarRef, int k) {
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
         
+        //step1 make backedges
+        unordered_map<TreeNode*, TreeNode*> back_edge;
         
-        unordered_map<TreeNode*, TreeNode*> parent;
-        parent[root] = NULL;
-       
-        findParent(root, parent);
+        TreeNode* par = new TreeNode(-1);
         
-        // step 3  BFS in all direction
-        unordered_map<TreeNode*, bool> vis;
+        dfs(root, par, back_edge);
         
-        queue<TreeNode*> q;
+        // for(auto m : back_edge){
+        //     // cout<<(m.first)->val<<"->"<<(m.second)->val<<"/ ";
+        // }
+    
+        //step2 run bfs
+        unordered_map<int,int> vis;
+        queue<pair<TreeNode*, int>> q;
         
-        q.push(tarRef);
-        vis[tarRef] = true;
+        q.push({target, 0});  //node, distance from tar
         
-        int cnt = 0;
-        while(!q.empty())
-        {
-            int len = q.size();
-            
-            if(cnt++ == k) break;
-            
-            for(int i = 0; i < len; i++)
-            {
-                auto node = q.front();
-                q.pop();
-                
-                if(node->left && vis[node->left] == false)
-                {
-                    vis[node->left] = true;
-                    q.push(node->left);
-                }
-                if(node->right && vis[node->right] == false)
-                {
-                    vis[node->right] = true;
-                    q.push(node->right);
-                }
-                if(parent[node] && vis[parent[node]] == false)
-                {
-                    vis[parent[node]] = true;
-                    q.push(parent[node]);
-                }
-            }
-  
-        }
+        vis[target->val] = 1;
         
         vector<int> ans;
         
-        while(!q.empty())
-        {
-            int val = q.front()->val;
-             q.pop();
-             
-            ans.push_back(val);
-           
+        while(!q.empty()){
+            
+            int len = q.size();
+            
+            for(int i = 0; i < len; i++){
+                
+                auto front = q.front();
+                q.pop();
+                
+                TreeNode* node = front.first;
+                int dis = front.second;
+                
+                if(dis == k){
+                    ans.push_back(node->val);
+                }
+                
+                if(node->left && vis[node->left->val] == 0){
+                    vis[node->left->val] = 1;
+                    q.push({node->left, dis+1});
+                }
+                
+                if(node->right && vis[node->right->val] == 0){
+                    vis[node->right->val] = 1;
+                    q.push({node->right, dis+1});
+                }
+                
+                if((back_edge[node])->val != -1 && vis[back_edge[node]->val] == 0){
+                    vis[back_edge[node]->val] = 1;
+                    q.push({back_edge[node], dis+1});
+                }
+                
+            }
+            
         }
+        
+        // cout<<back_edge[root]->val<<" ";
+        
         
         return ans;
     }
