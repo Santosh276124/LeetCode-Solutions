@@ -107,8 +107,7 @@ class Solution{
     pair<int,int> solve(Node* root){
         
         if(root == NULL){
-            pair<int,int> p = make_pair(0, 0);
-            return p;
+            return {0,0};
         }
         
         pair<int,int> left = solve(root->left);
