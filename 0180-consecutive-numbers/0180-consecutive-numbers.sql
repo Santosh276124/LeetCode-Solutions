@@ -1,16 +1,14 @@
-# Write your MySQL query statement below
-with cte as 
-(
-select *,
-lag(num,1) over(order by id) as "lag1",
-lag(num,2) over(order by id) as "lag2"
+
+
+with cte as (select      
+            num,
+            lead(num) over(order by id) as "Leadd",
+            lag(num) over(order by id) as "Lagg"
+        
 from Logs)
 
-select distinct num as ConsecutiveNums from cte
-where num = lag1 and num = lag2;
+select num as ConsecutiveNums from cte 
+where  num = Leadd and num = Lagg
+group by num
 
-# method 2
-
-# select distinct num as ConsecutiveNums
-# from Logs
-# where (id+1, num) in (select * from Logs) and (id+2, num) in (select * from Logs)
+# select * from cte
